@@ -76,25 +76,46 @@ const Hero = () => {
                         </svg>
 
                         {/* Elements floating inside */}
-                        <div className="absolute top-[12%] left-[18%] text-[#1C1C1C]">
+                        <motion.div
+                            animate={{ y: [0, -15, 0] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            className="absolute top-[12%] left-[18%] text-[#1C1C1C]"
+                        >
                             <span className="font-serif text-[180px] leading-none opacity-90 drop-shadow-lg">5</span>
-                        </div>
+                        </motion.div>
 
-                        <div className="absolute bottom-[20%] left-[8%] text-[#1C1C1C]">
+                        <motion.div
+                            animate={{ y: [0, -20, 0] }}
+                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                            className="absolute bottom-[20%] left-[8%] text-[#1C1C1C]"
+                        >
                             <span className="font-serif text-[180px] leading-none opacity-90 drop-shadow-lg">4</span>
-                        </div>
+                        </motion.div>
 
-                        <div className="absolute bottom-[30%] right-[8%] text-[#1C1C1C]">
+                        <motion.div
+                            animate={{ y: [0, -12, 0] }}
+                            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                            className="absolute bottom-[30%] right-[8%] text-[#1C1C1C]"
+                        >
                             <span className="font-serif text-[160px] leading-none opacity-90 drop-shadow-lg">9</span>
-                        </div>
-                        <div className="absolute -bottom-[2%] right-[25%] text-[#1C1C1C]">
+                        </motion.div>
+
+                        <motion.div
+                            animate={{ y: [0, -18, 0] }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                            className="absolute -bottom-[2%] right-[25%] text-[#1C1C1C]"
+                        >
                             <span className="font-serif text-[120px] leading-none opacity-90 drop-shadow-lg">7</span>
-                        </div>
+                        </motion.div>
 
                         {/* Moon/Mystical Graphics placeholders */}
-                        <div className="absolute top-[32%] left-[32%] animate-pulse">
+                        <motion.div
+                            animate={{ scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                            className="absolute top-[32%] left-[32%]"
+                        >
                             <Sparkle className="w-10 h-10 text-[#C5A065]" />
-                        </div>
+                        </motion.div>
                     </div>
                 </motion.div>
             </div>
