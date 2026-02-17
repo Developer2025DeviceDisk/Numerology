@@ -115,3 +115,4 @@ export default function AboutUs() {
         </main>
     );
 }
+console.log("About Us page loaded");
