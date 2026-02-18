@@ -27,7 +27,7 @@ export default function AboutUs() {
                         <span className="italic text-[#E65100]">true path</span>
                     </h1>
                     <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                        Mysta was founded with a simple mission: to make the ancient wisdom of numerology accessible to everyone. We believe that numbers hold the key to understanding our potential and destiny.
+                        Mahakal was founded with a simple mission: to make the ancient wisdom of numerology accessible to everyone. We believe that numbers hold the key to understanding our potential and destiny.
                     </p>
                 </div>
             </Section>

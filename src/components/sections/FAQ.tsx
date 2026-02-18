@@ -43,7 +43,7 @@ const FAQ = () => {
                         <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
                             Commmon Questions
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-medium font-serif text-gray-900">
+                        <h2 className="text-4xl md:text-5xl font-medium font-serif text-secondary">
                             Feel free to ask <br />
                             <span className="italic">more questions</span>
                         </h2>
@@ -91,7 +91,7 @@ const FAQ = () => {
                     </div>
 
                     <div className="pt-4">
-                        <Button variant="primary" className="rounded-none bg-[#1C1C1C] text-white hover:bg-gray-800 px-8 py-3 text-xs uppercase tracking-wider font-bold">
+                        <Button variant="primary" className="rounded-none bg-white !text-black hover:bg-white px-8 py-3 text-xs uppercase tracking-wider font-bold">
                             Contact Us
                         </Button>
                     </div>

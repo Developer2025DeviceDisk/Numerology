@@ -11,11 +11,11 @@ const ZodiacSection = () => {
                 <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
                     Birth Date
                 </div>
-                <h2 className="text-4xl md:text-5xl font-medium font-serif text-gray-900">
+                <h2 className="text-4xl md:text-5xl font-medium font-serif text-secondary">
                     Your birth date reveals <br />
                     <span className="italic">your unique powers</span>
                 </h2>
-                <p className="text-gray-500 max-w-lg mx-auto text-sm pt-4">
+                <p className="text-secondary max-w-lg mx-auto text-sm pt-4">
                     It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
                 </p>
             </div>

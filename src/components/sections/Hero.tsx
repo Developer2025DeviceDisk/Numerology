@@ -28,17 +28,17 @@ const Hero = () => {
                         Consultation For Free
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-serif font-medium leading-[0.9] text-gray-900">
+                    <h1 className="text-6xl md:text-8xl font-serif font-medium leading-[0.9] text-secondary">
                         Infinite power of <br />
                         <span className="italic">numerology</span>
                     </h1>
 
-                    <p className="text-lg text-gray-600 max-w-md leading-relaxed pl-1">
+                    <p className="text-lg text-secondary max-w-md leading-relaxed pl-1">
                         Unlock the hidden meaning of numbers and discover what destiny holds for you.
                     </p>
 
                     <div className="pt-4 pl-1">
-                        <Button size="lg" variant="primary" className="rounded-none px-12 py-6 text-sm font-bold tracking-wider bg-[#E65100] hover:bg-[#CC4600] shadow-none uppercase">
+                        <Button size="lg" className="rounded-none hover:bg-white px-12 py-6 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
                             Read More
                         </Button>
                     </div>

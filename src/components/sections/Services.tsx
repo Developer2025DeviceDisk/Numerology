@@ -53,7 +53,7 @@ const Services = () => {
                 <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
                     Our Services
                 </div>
-                <h2 className="text-4xl md:text-5xl font-medium mb-4 font-serif text-white">
+                <h2 className="text-secondary text-4xl md:text-5xl font-medium mb-4 font-serif ">
                     We explain what each <br />
                     <span className="italic">number means</span>
                 </h2>
@@ -61,15 +61,15 @@ const Services = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service, index) => (
-                    <div key={index} className="group p-8 border border-white/5 bg-[#1F1F35] hover:bg-[#252540] transition-colors duration-300 rounded-sm">
-                        <div className="w-10 h-10 mb-6 text-[#C5A065]">
+                    <div key={index} className="group p-8 border border-black/10 bg-[#1f352500] hover:bg-[#1f352500] transition-colors duration-300 rounded-sm">
+                        <div className="w-10 h-10 mb-6 text-secondary">
                             {service.icon}
                         </div>
-                        <h3 className="text-xl font-bold mb-4 text-white font-serif">{service.title}</h3>
-                        <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                        <h3 className="text-xl font-bold mb-4 text-blackfont-serif">{service.title}</h3>
+                        <p className="text-secondary text-sm leading-relaxed mb-6">
                             {service.description}
                         </p>
-                        <a href="#" className="inline-block text-xs font-bold text-white uppercase tracking-wider border-b border-white/20 pb-1 hover:border-white transition-colors">
+                        <a href="#" className="inline-block text-xs font-bold text-black uppercase tracking-wider border-white/20 pb-1 hover:border-white transition-colors">
                             Read More
                         </a>
                     </div>

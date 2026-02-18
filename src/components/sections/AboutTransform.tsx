@@ -55,21 +55,21 @@ const AboutTransform = () => {
                         Who we are
                     </div>
 
-                    <h2 className="text-5xl md:text-6xl font-serif font-medium leading-[1.1] text-gray-900">
+                    <h2 className="text-5xl md:text-6xl font-serif font-medium leading-[1.1] text-secondary">
                         Numerology helps to <br />
                         <span className="italic">transform you</span>
                     </h2>
 
-                    <p className="text-lg text-gray-600 leading-relaxed max-w-lg pl-1">
+                    <p className="text-lg text-secondary leading-relaxed max-w-lg pl-1">
                         Numerology is an ancient belief system that assigns spiritual or mystical significance to numbers. It is based on the idea that numbers have vibrations and influence the universe, including human life.
                     </p>
 
-                    <p className="text-base text-gray-500 leading-relaxed max-w-lg pl-1">
+                    <p className="text-base text-secondary leading-relaxed max-w-lg pl-1">
                         By analyzing numbers derived from a person's birth date and name, numerologists claim to reveal insights into personality traits, life purpose.
                     </p>
 
                     <div className="pt-6 pl-1">
-                        <Button size="lg" variant="primary" className="rounded-none px-10 py-5 text-sm font-bold tracking-wider bg-[#E65100] hover:bg-[#CC4600] shadow-none uppercase">
+                        <Button size="lg" className="rounded-none px-10 py-5 hover:bg-white !text-black font-bold tracking-wider bg-white shadow-none uppercase">
                             Learn More
                         </Button>
                     </div>

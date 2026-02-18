@@ -27,7 +27,7 @@ const Statistics = () => {
                         <div className="text-4xl md:text-5xl font-bold text-accent-gold font-mono">
                             {stat.value}
                         </div>
-                        <div className="text-sm md:text-base text-text-gray uppercase tracking-wider">
+                        <div className="text-sm md:text-base text-secondary uppercase tracking-wider">
                             {stat.label}
                         </div>
                     </motion.div>

@@ -18,12 +18,10 @@ const Header = () => {
     }, []);
 
     const navLinks = [
-        { name: "Pages", href: "#", hasDropdown: true },
+        { name: "Pages", href: "#", hasDropdown: false },
         { name: "About Us", href: "/about-us" },
-        { name: "Our Team", href: "/team" },
         { name: "Contact Us", href: "/contact" },
-        { name: "Online Shop", href: "/shop", hasDropdown: true },
-        { name: "Blog", href: "/blog", hasDropdown: true },
+        { name: "Blog", href: "/blog",hasDropdown: false },
     ];
 
     return (
@@ -37,9 +35,9 @@ const Header = () => {
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group">
                     <div className="relative">
-                        {/* Simple Logo Placeholder based on screenshot 'Mysta' */}
+                        {/* Simple Logo Placeholder based on screenshot 'Mahakal' */}
                         <span className="text-3xl font-serif text-secondary font-bold tracking-wide">
-                            Mysta
+                            Mahakal
                         </span>
                     </div>
                 </Link>
@@ -50,7 +48,7 @@ const Header = () => {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-semibold text-gray-800 hover:text-primary transition-colors flex items-center gap-1"
+                            className="text-sm font-semibold text-secondary hover:text-primary transition-colors flex items-center gap-1"
                         >
                             {link.name}
                             {link.hasDropdown && <ChevronDown className="w-3 h-3" />}
@@ -60,8 +58,8 @@ const Header = () => {
 
                 {/* Desktop CTA */}
                 <div className="hidden md:block">
-                    <Button size="sm" variant="secondary" className="!rounded-md border-gray-300 font-bold px-6">
-                        Buy Now
+                    <Button size="sm" variant="secondary" className="!rounded-md border-gray-300 bg-secondary text-black px-6">
+                        Get Your Report
                     </Button>
                 </div>
 
@@ -89,7 +87,7 @@ const Header = () => {
                             </Link>
                         ))}
                         <Button className="w-full" size="sm">
-                            Buy Now
+                            Get Your Report
                         </Button>
                     </nav>
                 </div>

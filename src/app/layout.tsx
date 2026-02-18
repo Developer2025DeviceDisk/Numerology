@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Mysta - Infinite Power of Numerology",
+  title: "Mahakal - Infinite Power of Numerology",
   description: "Unlock your destiny with ancient numerology wisdom.",
 };
 
