@@ -32,10 +32,10 @@ const Testimonials = () => {
                         <Star className="w-6 h-6 text-[#F5C77A]" />
                     </div>
                 </div>
-                <h2 className="text-4xl md:text-5xl font-medium font-serif text-gray-900">
-                    Hear from our clients
+                <h2 className="text-4xl md:text-5xl font-medium font-serif text-secondary">
+                    from our clients
                 </h2>
-                <p className="text-gray-500 max-w-xl mx-auto text-sm">
+                <p className="text-secondary max-w-xl mx-auto text-sm">
                     Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis libero at tempus, blandit posuere ligula varius congue cursus porta feugiat
                 </p>
             </div>

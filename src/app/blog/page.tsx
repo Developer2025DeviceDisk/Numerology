@@ -82,7 +82,7 @@ export default function BlogPage() {
                     </div>
                     <h1 className="text-5xl md:text-7xl font-serif font-medium text-gray-900 mb-6">
                         Wisdom from the <br />
-                        <span className="italic text-[#E65100]">stars & numbers</span>
+                        <span className="italic text-secondary">stars & numbers</span>
                     </h1>
                     <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
                         Explore articles, guides, and insights to deepen your understanding of the mystical arts.
@@ -131,7 +131,7 @@ export default function BlogPage() {
                 </div>
 
                 <div className="flex justify-center pt-16">
-                    <Button variant="outline" className="rounded-none px-12 py-4 border-gray-300 text-gray-900 hover:bg-[#1A1A2E] hover:text-white hover:border-[#1A1A2E] uppercase tracking-wider font-bold">
+                    <Button className="rounded-m px-12 py-4 bg-white shadow-none border border-black-2 !text-black hover:bg-white uppercase tracking-wider font-bold">
                         View All Posts
                     </Button>
                 </div>

@@ -5,7 +5,7 @@ import Section from "../ui/Section";
 import { motion } from "framer-motion";
 
 const stats = [
-    { label: "Happy Clients", value: "25k+" },
+    { label: "Happy Clients text-secondary", value: "25k+" },
     { label: "Years Experience", value: "12+" },
     { label: "Consultations", value: "50k+" },
     { label: "Expert Numerologists", value: "15" },
@@ -22,8 +22,8 @@ const Statistics = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="space-y-2"
-                    >
+                        className="space-y-2">
+
                         <div className="text-4xl md:text-5xl font-bold text-accent-gold font-mono">
                             {stat.value}
                         </div>

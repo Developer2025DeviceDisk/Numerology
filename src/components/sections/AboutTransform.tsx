@@ -69,7 +69,7 @@ const AboutTransform = () => {
                     </p>
 
                     <div className="pt-6 pl-1">
-                        <Button size="lg" className="rounded-none px-10 py-5 hover:bg-white !text-black font-bold tracking-wider bg-white shadow-none uppercase">
+                        <Button size="lg" className="rounded-m px-10 py-5 hover:bg-white border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
                             Learn More
                         </Button>
                     </div>

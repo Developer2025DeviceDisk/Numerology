@@ -12,11 +12,11 @@ const ConsultationBanner = () => {
                     <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
                         Free Reading
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-medium font-serif text-white leading-tight">
+                    <h2 className="text-4xl md:text-5xl font-medium font-serif text-secondary leading-tight">
                         Free numerological express <br />
                         <span className="italic">consultation</span>
                     </h2>
-                    <p className="text-gray-400 max-w-md text-sm leading-relaxed">
+                    <p className="text-secondary max-w-md text-sm leading-relaxed">
                         Contact us for a free 15-minute consultation to understand how numerology can help you achieve your life goals.
                     </p>
                     <div className="pt-4">

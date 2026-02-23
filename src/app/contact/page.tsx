@@ -44,7 +44,7 @@ export default function ContactPage() {
                     </div>
                     <h1 className="text-5xl md:text-7xl font-serif font-medium text-gray-900 mb-6">
                         We'd love to <br />
-                        <span className="italic text-[#E65100]">hear from you</span>
+                        <span className="italic text-secondary ">hear from you</span>
                     </h1>
                     <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
                         Whether you have a question about our services, pricing, or just want to say hello, we are always happy to help.
@@ -58,7 +58,7 @@ export default function ContactPage() {
                     {/* Contact Info */}
                     <div className="space-y-12">
                         <div className="space-y-6">
-                            <h3 className="text-3xl font-serif font-bold text-gray-900">Get in Touch</h3>
+                            <h3 className="text-3xl font-serif font-bold text-secondary">Get in Touch</h3>
                             <p className="text-gray-600 leading-relaxed">
                                 Have a question or need assistance? Reach out to us via phone, email, or visit our office.
                             </p>
@@ -70,7 +70,7 @@ export default function ContactPage() {
                                     <MapPin className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-gray-900 font-serif text-lg">Visit Us</h4>
+                                    <h4 className="font-bold text-secondary font-serif text-lg">Visit Us</h4>
                                     <p className="text-gray-600">202 Helga Springs Rd,<br />Crawford, TN 38554</p>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@ export default function ContactPage() {
                                     <Phone className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-gray-900 font-serif text-lg">Call Us</h4>
+                                    <h4 className="font-bold text-secondary font-serif text-lg">Call Us</h4>
                                     <p className="text-gray-600">800.275.8777</p>
                                     <p className="text-gray-500 text-sm">Mon-Fri: 9am - 6pm EST</p>
                                 </div>
@@ -91,7 +91,7 @@ export default function ContactPage() {
                                     <Mail className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-gray-900 font-serif text-lg">Email Us</h4>
+                                    <h4 className="font-bold text-secondary font-serif text-lg">Email Us</h4>
                                     <p className="text-gray-600">alex@company.com</p>
                                     <p className="text-gray-500 text-sm">Support 24/7</p>
                                 </div>
@@ -101,27 +101,27 @@ export default function ContactPage() {
 
                     {/* Contact Form */}
                     <div className="bg-[#FAFAFA] p-8 md:p-12 border border-gray-100 shadow-sm">
-                        <h3 className="text-2xl font-serif font-bold text-gray-900 mb-8">Send a Message</h3>
+                        <h3 className="text-2xl font-serif font-bold text-secondary mb-8">Send a Message</h3>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label htmlFor="name" className="text-sm font-bold text-gray-700 uppercase tracking-wide">Name</label>
+                                    <label htmlFor="name" className="text-sm font-bold text-secondary uppercase tracking-wide">Name</label>
                                     <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 focus:outline-none focus:border-[#E65100] transition-colors" placeholder="Your Name" required />
                                 </div>
                                 <div className="space-y-2">
-                                    <label htmlFor="email" className="text-sm font-bold text-gray-700 uppercase tracking-wide">Email</label>
+                                    <label htmlFor="email" className="text-sm font-bold text-secondary uppercase tracking-wide">Email</label>
                                     <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 focus:outline-none focus:border-[#E65100] transition-colors" placeholder="Your Email" required />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="subject" className="text-sm font-bold text-gray-700 uppercase tracking-wide">Subject</label>
+                                <label htmlFor="subject" className="text-sm font-bold text-secondary uppercase tracking-wide">Subject</label>
                                 <input type="text" id="subject" name="subject" value={formData.subject} onChange={handleChange} className="w-full px-4 py-3 bg-white border border-gray-200 focus:outline-none focus:border-[#E65100] transition-colors" placeholder="Subject" />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="message" className="text-sm font-bold text-gray-700 uppercase tracking-wide">Message</label>
+                                <label htmlFor="message" className="text-sm font-bold text-secondary uppercase tracking-wide">Message</label>
                                 <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full px-4 py-3 bg-white border border-gray-200 focus:outline-none focus:border-[#E65100] transition-colors resize-none" placeholder="Your Message" required />
                             </div>
-                            <Button type="submit" variant="primary" className="w-full rounded-none py-4 bg-[#E65100] hover:bg-[#CC4600] text-white font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+                            <Button type="submit" variant="primary" className="w-full rounded-m py-4 bg-white hover:bg-white !text-black font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-none border border-2-black">
                                 Send Message <Send className="w-4 h-4" />
                             </Button>
                         </form>

@@ -25,8 +25,8 @@ const FAQ = () => {
     ];
 
     return (
-        <Section id="faq" className="py-20 md:py-32 bg-[#F9F9F9]">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
+        <Section id="faq" className="py-20 md:py-32 bg-[#F9F9F9] ">
+            <div className="grid md:grid-cols-2 gap-16 items-center ">
                 {/* Left - Visuals */}
                 <div className="relative h-[500px] hidden md:flex items-center justify-center">
                     <div className="relative font-serif text-[280px] leading-none text-[#1C1C1C] opacity-90 select-none">
@@ -47,7 +47,7 @@ const FAQ = () => {
                             Feel free to ask <br />
                             <span className="italic">more questions</span>
                         </h2>
-                        <p className="text-gray-500 text-sm">
+                        <p className="text-secondary text-sm">
                             Can't find the answer you're looking for? Reach out to our customer support team.
                         </p>
                     </div>
@@ -63,7 +63,7 @@ const FAQ = () => {
                                     className="w-full flex items-center justify-between text-left focus:outline-none group"
                                     onClick={() => setActiveIndex(activeIndex === index ? null : index)}
                                 >
-                                    <span className={`font-serif text-xl ${activeIndex === index ? "text-[#E65100]" : "text-gray-900 group-hover:text-[#E65100] transition-colors"}`}>
+                                    <span className={`font-serif text-xl ${activeIndex === index ? "text-secondary" : "text-gray-900 group-hover:text-secondary transition-colors"}`}>
                                         {faq.question}
                                     </span>
                                     {activeIndex === index ? (
@@ -91,7 +91,7 @@ const FAQ = () => {
                     </div>
 
                     <div className="pt-4">
-                        <Button variant="primary" className="rounded-none bg-white !text-black hover:bg-white px-8 py-3 text-xs uppercase tracking-wider font-bold">
+                        <Button className="rounded-m bg-white shadow-none border border-black-2 !text-black hover:bg-white px-8 py-3 text-xs uppercase tracking-wider font-bold">
                             Contact Us
                         </Button>
                     </div>

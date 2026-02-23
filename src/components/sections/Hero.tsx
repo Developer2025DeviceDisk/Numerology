@@ -38,22 +38,22 @@ const Hero = () => {
                     </p>
 
                     <div className="pt-4 pl-1">
-                        <Button size="lg" className="rounded-none hover:bg-white px-12 py-6 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
+                        <Button size="lg" className="rounded-m hover:bg-white px-12 py-6 border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
                             Read More
                         </Button>
                     </div>
 
                     <div className="flex items-center gap-12 pt-12 pl-1 border-t border-gray-200 mt-12 max-w-md">
                         <div>
-                            <p className="font-serif text-2xl font-bold text-gray-900">85k</p>
+                            <p className="font-serif text-2xl font-bold text-secondary">85k</p>
                             <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">Happy Clients</p>
                         </div>
                         <div>
-                            <p className="font-serif text-2xl font-bold text-gray-900">12</p>
+                            <p className="font-serif text-2xl font-bold text-secondary">12</p>
                             <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">Years Experience</p>
                         </div>
                         <div>
-                            <p className="font-serif text-2xl font-bold text-gray-900">5</p>
+                            <p className="font-serif text-2xl font-bold text-secondary">5</p>
                             <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">Awards Won</p>
                         </div>
                     </div>

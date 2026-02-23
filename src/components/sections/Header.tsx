@@ -48,7 +48,7 @@ const Header = () => {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-semibold text-secondary hover:text-primary transition-colors flex items-center gap-1"
+                            className="text-sm font-semibold text-secondary hover:text-secondary transition-colors flex items-center gap-1"
                         >
                             {link.name}
                             {link.hasDropdown && <ChevronDown className="w-3 h-3" />}
@@ -58,7 +58,7 @@ const Header = () => {
 
                 {/* Desktop CTA */}
                 <div className="hidden md:block">
-                    <Button size="sm" variant="secondary" className="!rounded-md border-gray-300 bg-secondary text-black px-6">
+                    <Button size="sm" variant="secondary" className="rounded-m !border-black bg-white text-black px-6">
                         Get Your Report
                     </Button>
                 </div>

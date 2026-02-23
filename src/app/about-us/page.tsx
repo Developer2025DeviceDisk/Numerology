@@ -24,7 +24,7 @@ export default function AboutUs() {
                     </div>
                     <h1 className="text-5xl md:text-7xl font-serif font-medium text-gray-900 mb-6">
                         We help you find your <br />
-                        <span className="italic text-[#E65100]">true path</span>
+                        <span className="italic text-secondary">true path</span>
                     </h1>
                     <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
                         Mahakal was founded with a simple mission: to make the ancient wisdom of numerology accessible to everyone. We believe that numbers hold the key to understanding our potential and destiny.
@@ -40,7 +40,7 @@ export default function AboutUs() {
                             <Target className="w-8 h-8" />
                         </div>
                         <h3 className="text-2xl font-serif font-bold text-gray-900">Our Mission</h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
+                        <p className="text-secondary text-sm leading-relaxed">
                             To empower individuals with self-knowledge through precision numerology reports and expert guidance.
                         </p>
                     </div>
@@ -50,7 +50,7 @@ export default function AboutUs() {
                             <Star className="w-8 h-8" />
                         </div>
                         <h3 className="text-2xl font-serif font-bold text-gray-900">Our Vision</h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
+                        <p className="text-secondary text-sm leading-relaxed">
                             A world where everyone embraces their unique cosmic blueprint and lives in alignment with their purpose.
                         </p>
                     </div>
@@ -60,7 +60,7 @@ export default function AboutUs() {
                             <Heart className="w-8 h-8" />
                         </div>
                         <h3 className="text-2xl font-serif font-bold text-gray-900">Our Values</h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
+                        <p className="text-secondary text-sm leading-relaxed">
                             Integrity, accuracy, and compassion are at the heart of everything we do. We put our community first.
                         </p>
                     </div>
@@ -87,23 +87,23 @@ export default function AboutUs() {
                         <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
                             Why Choose Us
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-serif font-medium text-white leading-tight">
+                        <h2 className="text-4xl md:text-5xl font-serif font-medium text-secondary leading-tight">
                             Guided by the stars, <br />
                             <span className="italic">grounded in wisdom</span>
                         </h2>
-                        <p className="text-gray-300 leading-relaxed text-lg">
+                        <p className="text-gray-900 leading-relaxed text-lg">
                             Unlike generic horoscope sites, we use complex mathematical calculations based on the Pythagorean system to generate your unique charts. Our experts act as your personal guides.
                         </p>
                         <ul className="space-y-4 pt-4">
                             {["Certified Numerologists", "Deeply Personalized Reports", "24/7 Spiritual Support", "Secure & Confidential"].map((item, i) => (
-                                <li key={i} className="flex items-center gap-3 text-gray-300">
+                                <li key={i} className="flex items-center gap-3 text-gray-900">
                                     <span className="w-2 h-2 bg-[#E65100] rounded-full" />
                                     {item}
                                 </li>
                             ))}
                         </ul>
                         <div className="pt-6">
-                            <Button variant="primary" className="rounded-none px-10 py-4 bg-[#E65100] hover:bg-[#CC4600] text-white uppercase tracking-wider font-bold">
+                            <Button variant="primary" className="rounded-m px-10 py-4 bg-white hover:bg-white !text-black uppercase tracking-wider font-bold">
                                 Get Your Reading
                             </Button>
                         </div>
