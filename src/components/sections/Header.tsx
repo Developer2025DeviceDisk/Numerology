@@ -18,7 +18,6 @@ const Header = () => {
     }, []);
 
     const navLinks = [
-        { name: "Pages", href: "#", hasDropdown: false },
         { name: "About Us", href: "/about-us" },
         { name: "Contact Us", href: "/contact" },
         { name: "Blog", href: "/blog",hasDropdown: false },
@@ -35,9 +34,9 @@ const Header = () => {
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group">
                     <div className="relative">
-                        {/* Simple Logo Placeholder based on screenshot 'Mahakal' */}
+                        {/* Simple Logo Placeholder based on screenshot 'Mahakaal' */}
                         <span className="text-3xl font-serif text-secondary font-bold tracking-wide">
-                            Mahakal
+                            Mahakaal
                         </span>
                     </div>
                 </Link>

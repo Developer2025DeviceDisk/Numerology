@@ -51,7 +51,7 @@ const AboutTransform = () => {
                     transition={{ duration: 0.8 }}
                     className="space-y-8"
                 >
-                    <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase pl-1">
+                    <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase pl-1">
                         Who we are
                     </div>
 
@@ -60,16 +60,16 @@ const AboutTransform = () => {
                         <span className="italic">transform you</span>
                     </h2>
 
-                    <p className="text-lg text-secondary leading-relaxed max-w-lg pl-1">
+                    <p className="text-lg text-gray-600 leading-relaxed max-w-lg pl-1">
                         Numerology is an ancient belief system that assigns spiritual or mystical significance to numbers. It is based on the idea that numbers have vibrations and influence the universe, including human life.
                     </p>
 
-                    <p className="text-base text-secondary leading-relaxed max-w-lg pl-1">
+                    <p className="text-base text-gray-600 leading-relaxed max-w-lg pl-1">
                         By analyzing numbers derived from a person's birth date and name, numerologists claim to reveal insights into personality traits, life purpose.
                     </p>
 
                     <div className="pt-6 pl-1">
-                        <Button size="lg" className="rounded-m px-10 py-5 hover:bg-white border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
+                        <Button size="sm" className="rounded-m px-10 py-5 hover:bg-white border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
                             Learn More
                         </Button>
                     </div>

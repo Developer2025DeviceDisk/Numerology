@@ -5,7 +5,7 @@ import Section from "../ui/Section";
 import { motion } from "framer-motion";
 
 const stats = [
-    { label: "Happy Clients text-secondary", value: "25k+" },
+    { label: "Happy Clients", value: "25k+" },
     { label: "Years Experience", value: "12+" },
     { label: "Consultations", value: "50k+" },
     { label: "Expert Numerologists", value: "15" },

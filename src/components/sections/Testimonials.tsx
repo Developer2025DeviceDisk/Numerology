@@ -35,7 +35,7 @@ const Testimonials = () => {
                 <h2 className="text-4xl md:text-5xl font-medium font-serif text-secondary">
                     from our clients
                 </h2>
-                <p className="text-secondary max-w-xl mx-auto text-sm">
+                <p className="text-gray-600 max-w-xl mx-auto text-sm">
                     Aliquam a augue suscipit, luctus neque purus ipsum neque dolor primis libero at tempus, blandit posuere ligula varius congue cursus porta feugiat
                 </p>
             </div>

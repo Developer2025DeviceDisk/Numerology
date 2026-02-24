@@ -19,12 +19,32 @@ export default function ContactPage() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Handle form submission logic here
-        console.log("Form submitted:", formData);
-        alert("Thank you for your message! We will get back to you soon.");
-    };
+   // 1. Add 'async' so we can wait for the database response
+    const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+        const response = await fetch('http://localhost:5000/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Success! Data saved to MongoDB.");
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        } else {
+            alert("Backend Error: " + (result.message || "Unknown error"));
+        }
+    } catch (error) {
+        console.error("Connection Refused:", error);
+        alert("Check if your Node.js server is running on Port 5000!");
+    }
+};
 
     return (
         <main className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30 selection:text-white">
@@ -39,7 +59,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="relative z-10 max-w-4xl mx-auto px-4">
-                    <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase mb-4">
+                    <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase mb-4">
                         Contact Us
                     </div>
                     <h1 className="text-5xl md:text-7xl font-serif font-medium text-gray-900 mb-6">
@@ -66,7 +86,7 @@ export default function ContactPage() {
 
                         <div className="space-y-8">
                             <div className="flex items-start gap-4 group">
-                                <div className="w-12 h-12 bg-[#F4F1EA] rounded-full flex items-center justify-center text-[#E65100] group-hover:bg-[#E65100] group-hover:text-white transition-colors duration-300">
+                                <div className="w-12 h-12 bg-[#F4F1EA] rounded-full flex items-center justify-center text-[#E65100] group-hover:bg-secondary group-hover:text-white transition-colors duration-300">
                                     <MapPin className="w-5 h-5" />
                                 </div>
                                 <div>

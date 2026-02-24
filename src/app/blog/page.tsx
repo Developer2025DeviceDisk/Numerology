@@ -77,7 +77,7 @@ export default function BlogPage() {
                 </div>
 
                 <div className="relative z-10 max-w-4xl mx-auto px-4">
-                    <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase mb-4">
+                    <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase mb-4">
                         Our Journal
                     </div>
                     <h1 className="text-5xl md:text-7xl font-serif font-medium text-gray-900 mb-6">

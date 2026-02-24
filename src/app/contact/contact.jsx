@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from './ui/button'; // Adjust based on your file path
+import { Button } from './ui/button'; 
 import { Send } from 'lucide-react';
 
 const ContactForm = () => {
@@ -9,42 +9,72 @@ const ContactForm = () => {
         subject: '',
         message: ''
     });
-    console.log('Current form data:', formData); // Debugging log
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // 2. PLACE THE HANDLESUBMIT HERE
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Get existing data
-        const existingMessages = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
+        try {
+            // 1. Send data to your Node.js Backend
+            const response = await fetch('http://localhost:5000/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
 
-        // Add new data
-        const updatedMessages = [...existingMessages, { ...formData, id: Date.now() }];
+            const result = await response.json();
 
-        // Save to localStorage
-        localStorage.setItem('formSubmissions', JSON.stringify(updatedMessages));
-
-        alert('Message saved locally!');
-        
-        // Reset the form
-        setFormData({ name: '', email: '', subject: '', message: '' });
+            if (response.ok) {
+                alert('Message sent to MongoDB successfully!');
+                // 2. Clear form after success
+                setFormData({ name: '', email: '', subject: '', message: '' });
+            } else {
+                alert('Server error: ' + result.error);
+            }
+        } catch (error) {
+            console.error('Connection failed:', error);
+            alert('Could not connect to the server. Is it running on port 5000?');
+        }
     };
 
-    // 3. Your Component UI
     return (
         <section>
             <div className="bg-[#FAFAFA] p-8 md:p-12 border border-gray-100 shadow-sm">
                 <h3 className="text-2xl font-serif font-bold text-secondary mb-8">Send a Message</h3>
                 
-                {/* Ensure onSubmit is linked here */}
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* ... your input fields ... */}
+                    <input 
+                        name="name" 
+                        value={formData.name} 
+                        onChange={handleChange} 
+                        placeholder="Your Name" 
+                        required 
+                        className="w-full p-2 border"
+                    />
+                    <input 
+                        name="email" 
+                        type="email"
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        placeholder="Your Email" 
+                        required 
+                        className="w-full p-2 border"
+                    />
+                    <textarea 
+                        name="message" 
+                        value={formData.message} 
+                        onChange={handleChange} 
+                        placeholder="Your Message" 
+                        required 
+                        className="w-full p-2 border"
+                    />
                     
-                    <Button type="submit" className="border-2 border-black ...">
+                    <Button type="submit" className="flex items-center gap-2">
                         Send Message <Send className="w-4 h-4" />
                     </Button>
                 </form>

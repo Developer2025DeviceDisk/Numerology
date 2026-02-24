@@ -19,7 +19,7 @@ export default function AboutUs() {
                 </div>
 
                 <div className="relative z-10 max-w-4xl mx-auto px-4">
-                    <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase mb-4">
+                    <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase mb-4">
                         Our Story
                     </div>
                     <h1 className="text-5xl md:text-7xl font-serif font-medium text-gray-900 mb-6">
@@ -27,7 +27,7 @@ export default function AboutUs() {
                         <span className="italic text-secondary">true path</span>
                     </h1>
                     <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                        Mahakal was founded with a simple mission: to make the ancient wisdom of numerology accessible to everyone. We believe that numbers hold the key to understanding our potential and destiny.
+                        Mahakaal was founded with a simple mission: to make the ancient wisdom of numerology accessible to everyone. We believe that numbers hold the key to understanding our potential and destiny.
                     </p>
                 </div>
             </Section>
@@ -76,7 +76,7 @@ export default function AboutUs() {
                             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2727&auto=format&fit=crop')] bg-cover bg-center opacity-60" />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A2E] to-transparent opacity-80" />
                         </div>
-                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[#E65100] rounded-full flex items-center justify-center text-center p-4 shadow-xl">
+                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary rounded-full flex items-center justify-center text-center p-4 shadow-xl">
                             <p className="font-serif font-bold text-lg leading-tight">
                                 10+ <br /><span className="text-xs font-sans font-normal uppercase tracking-wider">Years of Magic</span>
                             </p>
@@ -84,7 +84,7 @@ export default function AboutUs() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
+                        <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase">
                             Why Choose Us
                         </div>
                         <h2 className="text-4xl md:text-5xl font-serif font-medium text-secondary leading-tight">
@@ -103,7 +103,7 @@ export default function AboutUs() {
                             ))}
                         </ul>
                         <div className="pt-6">
-                            <Button variant="primary" className="rounded-m px-10 py-4 bg-white hover:bg-white !text-black uppercase tracking-wider font-bold">
+                            <Button variant="primary" className="rounded-m shadow-none border border-black-2 px-10 py-4 bg-white hover:bg-white !text-black uppercase tracking-wider font-bold">
                                 Get Your Reading
                             </Button>
                         </div>

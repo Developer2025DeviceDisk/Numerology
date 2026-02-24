@@ -24,7 +24,7 @@ const Hero = () => {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="space-y-8 md:pr-10"
                 >
-                    <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase pl-1">
+                    <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase pl-1">
                         Consultation For Free
                     </div>
 
@@ -33,12 +33,12 @@ const Hero = () => {
                         <span className="italic">numerology</span>
                     </h1>
 
-                    <p className="text-lg text-secondary max-w-md leading-relaxed pl-1">
+                    <p className="text-lg text-gray-600 max-w-md leading-relaxed pl-1">
                         Unlock the hidden meaning of numbers and discover what destiny holds for you.
                     </p>
 
                     <div className="pt-4 pl-1">
-                        <Button size="lg" className="rounded-m hover:bg-white px-12 py-6 border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
+                        <Button size="sm" className="rounded-m hover:bg-white px-12 py-6 border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
                             Read More
                         </Button>
                     </div>

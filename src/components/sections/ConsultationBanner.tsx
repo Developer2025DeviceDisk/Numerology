@@ -9,18 +9,18 @@ const ConsultationBanner = () => {
         <Section className="py-20 bg-[#151525] border-y border-white/5 overflow-hidden relative">
             <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
                 <div className="space-y-6">
-                    <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
+                    <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase">
                         Free Reading
                     </div>
                     <h2 className="text-4xl md:text-5xl font-medium font-serif text-secondary leading-tight">
                         Free numerological express <br />
                         <span className="italic">consultation</span>
                     </h2>
-                    <p className="text-secondary max-w-md text-sm leading-relaxed">
+                    <p className="text-gray-600 max-w-md text-sm leading-relaxed">
                         Contact us for a free 15-minute consultation to understand how numerology can help you achieve your life goals.
                     </p>
                     <div className="pt-4">
-                        <a href="#" className="inline-block text-[#C5A065] border-b border-[#C5A065] pb-1 uppercase tracking-wider text-xs font-bold hover:text-white hover:border-white transition-colors">
+                        <a href="#" className="inline-block text-gray-600 border-b border-[#C5A065] pb-1 uppercase tracking-wider text-xs font-bold  hover:border-secondary transition-colors">
                             Book Now
                         </a>
                     </div>

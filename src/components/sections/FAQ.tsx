@@ -40,14 +40,14 @@ const FAQ = () => {
                 {/* Right - Accordion */}
                 <div className="space-y-10">
                     <div className="space-y-4">
-                        <div className="text-xs font-bold tracking-[0.2em] text-[#C5A065] uppercase">
+                        <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase">
                             Commmon Questions
                         </div>
                         <h2 className="text-4xl md:text-5xl font-medium font-serif text-secondary">
                             Feel free to ask <br />
                             <span className="italic">more questions</span>
                         </h2>
-                        <p className="text-secondary text-sm">
+                        <p className="text-gray-600 text-sm">
                             Can't find the answer you're looking for? Reach out to our customer support team.
                         </p>
                     </div>

@@ -20,26 +20,26 @@ const Footer = () => {
                     {/* Column 1: Brand */}
                     <div className="space-y-6">
                         <Link href="/" className="inline-block">
-                            <span className="text-3xl font-bold text-secondary font-serif">Mahakal</span>
+                            <span className="text-3xl font-bold text-secondary font-serif">Mahakaal</span>
                         </Link>
-                        <p className="text-secondary text-sm leading-relaxed max-w-sm">
+                        <p className="text-gray-600 text-sm leading-relaxed max-w-sm">
                             Reinventing the way of creating websites, we aim to create the most master-peeced WordPress theme available on the market.
                         </p>
                     </div>
 
                     {/* Column 2: Contact */}
                     <div className="space-y-6">
-                        <h4 className="font-bold text-xs tracking-widest uppercase text-secondary">Contact Us</h4>
-                        <div className="space-y-4 text-sm text-secondary">
+                        <h4 className="font-bold text-xs tracking-widest uppercase text-gray-600">Contact Us</h4>
+                        <div className="space-y-4 text-sm text-gray-600">
                             <p>202 Helga Springs Rd, Crawford, TN 38554</p>
-                            <p>Call Us: <span className="font-bold text-secondary">800.275.8777</span></p>
+                            <p>Call Us: <span className="font-bold text-gray-600">800.275.8777</span></p>
                             <p>alex@company.com</p>
                         </div>
                     </div>
 
                     {/* Column 3: Newsletter */}
                     <div className="space-y-6">
-                        <h4 className="font-bold text-xs tracking-widest uppercase text-secondary">Sign Up For Email Updates</h4>
+                        <h4 className="font-bold text-xs tracking-widest uppercase text-gray-600">Sign Up For Email Updates</h4>
                         <div className="flex bg-white p-1 shadow-sm">
                             <input
                                 type="email"
@@ -50,7 +50,7 @@ const Footer = () => {
                                 Subscribe
                             </Button>
                         </div>
-                        <p className="text-xs text-secondary italic">
+                        <p className="text-xs text-gray-600 italic">
                             Sign up with your email address to receive news and updates
                         </p>
                     </div>
@@ -59,7 +59,7 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="border-t border-[#C5A065]/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-secondary">
                     <div>
-                        <p>&copy; {new Date().getFullYear()} Mahakal. All rights reserved.</p>
+                        <p>&copy; {new Date().getFullYear()} Mahakaal. All rights reserved.</p>
                     </div>
 <div className="flex gap-6 md:gap-8 flex-wrap justify-center items-center">
     <Link href="https://instagram.com" target="_blank" className="hover:text-secondary transition-colors">
