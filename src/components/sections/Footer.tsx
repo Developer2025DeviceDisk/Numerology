@@ -1,15 +1,49 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Sparkles, Instagram, Twitter, Facebook, Linkedin } from "lucide-react";
+import { Instagram, Facebook, Linkedin } from "lucide-react";
 import Button from "../ui/Button";
-import Section from "../ui/Section";
 
 const Footer = () => {
+    // 1. State for managing the input and server feedback
+    const [email, setEmail] = useState("");
+    const [status, setStatus] = useState({ type: "", message: "" });
+    const [loading, setLoading] = useState(false);
+
+    // 2. The logic to send data to your MongoDB via Express
+    const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setStatus({ type: "", message: "" });
+
+        try {
+            // Pointing to your existing Express Backend
+            const response = await fetch("http://localhost:5000/api/subscribe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setStatus({ type: "success", message: "Thanks for subscribing!" });
+                setEmail(""); // Reset field on success
+            } else {
+                // Captures "Email already exists" or "Invalid email" from your backend
+                setStatus({ type: "error", message: data.message || "Something went wrong." });
+            }
+        } catch (err) {
+            setStatus({ type: "error", message: "Cannot connect to server. Is it running?" });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <footer className="bg-[#F4F1EA] pt-24 pb-12 overflow-hidden relative border-t border-[#C5A065]/20">
-            {/* Background Decor - Subtle */}
+            {/* Background Decor */}
             <div className="absolute inset-0 pointer-events-none opacity-30">
                 <div className="absolute -left-20 top-20 w-64 h-64 border border-[#C5A065]/20 rounded-full" />
                 <div className="absolute right-0 bottom-0 w-96 h-96 border border-[#C5A065]/10 rounded-full translate-x-1/2 translate-y-1/2" />
@@ -40,19 +74,37 @@ const Footer = () => {
                     {/* Column 3: Newsletter */}
                     <div className="space-y-6">
                         <h4 className="font-bold text-xs tracking-widest uppercase text-gray-600">Sign Up For Email Updates</h4>
-                        <div className="flex bg-white p-1 shadow-sm">
+                        
+                        <form onSubmit={handleSubscribe} className="flex bg-white p-1 shadow-sm border border-gray-100">
                             <input
                                 type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Your e-mail address"
                                 className="flex-1 bg-transparent px-4 py-3 text-sm outline-none text-secondary placeholder:text-gray-400"
                             />
-                            <Button className="rounded-m bg-secondary hover:bg-secondary text-white px-6 py-3 text-sm font-bold shadow-none">
-                                Subscribe
+                            <Button 
+                                type="submit"
+                                disabled={loading}
+                                className="rounded-m bg-secondary hover:bg-opacity-90 text-white px-6 py-3 text-sm font-bold shadow-none disabled:opacity-50 transition-all"
+                            >
+                                {loading ? "..." : "Subscribe"}
                             </Button>
-                        </div>
-                        <p className="text-xs text-gray-600 italic">
-                            Sign up with your email address to receive news and updates
-                        </p>
+                        </form>
+
+                        {/* Status Messages */}
+                        {status.message && (
+                            <p className={`text-xs font-medium ${status.type === "success" ? "text-green-600" : "text-red-500"}`}>
+                                {status.message}
+                            </p>
+                        )}
+                        
+                        {!status.message && (
+                            <p className="text-xs text-gray-600 italic">
+                                Sign up with your email address to receive news and updates
+                            </p>
+                        )}
                     </div>
                 </div>
 
@@ -61,22 +113,20 @@ const Footer = () => {
                     <div>
                         <p>&copy; {new Date().getFullYear()} Mahakaal. All rights reserved.</p>
                     </div>
-<div className="flex gap-6 md:gap-8 flex-wrap justify-center items-center">
-    <Link href="https://instagram.com" target="_blank" className="hover:text-secondary transition-colors">
-        <Instagram size={24} />
-        <span className="sr-only">Instagram</span>
-    </Link>
-
-    <Link href="https://linkedin.com" target="_blank" className="hover:text-secondary transition-colors">
-        <Linkedin size={24} />
-        <span className="sr-only">LinkedIn</span>
-    </Link>
-    
-    <Link href="https://facebook.com" target="_blank" className="hover:text-secondary transition-colors">
-        <Facebook size={24} />
-        <span className="sr-only">Facebook</span>
-    </Link>
-</div>
+                    <div className="flex gap-6 md:gap-8 flex-wrap justify-center items-center">
+                        <Link href="https://instagram.com" target="_blank" className="hover:text-[#C5A065] transition-colors">
+                            <Instagram size={24} />
+                            <span className="sr-only">Instagram</span>
+                        </Link>
+                        <Link href="https://linkedin.com" target="_blank" className="hover:text-[#C5A065] transition-colors">
+                            <Linkedin size={24} />
+                            <span className="sr-only">LinkedIn</span>
+                        </Link>
+                        <Link href="https://facebook.com" target="_blank" className="hover:text-[#C5A065] transition-colors">
+                            <Facebook size={24} />
+                            <span className="sr-only">Facebook</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </footer>

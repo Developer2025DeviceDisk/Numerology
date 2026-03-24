@@ -5,9 +5,10 @@ import Section from "../ui/Section";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../ui/Button";
+import Link from 'next/link';
 
 const FAQ = () => {
-    const [activeIndex, setActiveIndex] = useState<number | null>(0);
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     const faqs = [
         {
@@ -89,12 +90,13 @@ const FAQ = () => {
                             </div>
                         ))}
                     </div>
-
+                    <Link href="/contact" passHref>
                     <div className="pt-4">
                         <Button className="rounded-m bg-white shadow-none border border-black-2 !text-black hover:bg-white px-8 py-3 text-xs uppercase tracking-wider font-bold">
                             Contact Us
                         </Button>
-                    </div>
+                   </div>
+                     </Link>
                 </div>
             </div>
         </Section>

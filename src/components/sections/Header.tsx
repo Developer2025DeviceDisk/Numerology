@@ -21,6 +21,7 @@ const Header = () => {
         { name: "About Us", href: "/about-us" },
         { name: "Contact Us", href: "/contact" },
         { name: "Blog", href: "/blog",hasDropdown: false },
+        { name: "Get Free Report", href: "/ConsultationBanner.tsx" },
     ];
 
     return (
@@ -57,11 +58,11 @@ const Header = () => {
 
                 {/* Desktop CTA */}
                 <div className="hidden md:block">
-                    <Button size="sm" variant="secondary" className="rounded-m !border-black bg-white text-black px-6">
-                        Get Your Report
+                    <Button size="sm" variant="secondary" className="rounded-m hover:bg-white focus:outline-none focus:ring-2 !border-black bg-white text-black px-6">
+                        GET YOUR FULL REPORT
                     </Button>
                 </div>
-
+              
                 {/* Mobile Menu Toggle */}
                 <button
                     className="md:hidden text-gray-800"
@@ -86,7 +87,7 @@ const Header = () => {
                             </Link>
                         ))}
                         <Button className="w-full" size="sm">
-                            Get Your Report
+                            Get Your  Report
                         </Button>
                     </nav>
                 </div>

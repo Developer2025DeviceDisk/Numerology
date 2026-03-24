@@ -39,7 +39,7 @@ const Hero = () => {
 
                     <div className="pt-4 pl-1">
                         <Button size="sm" className="rounded-m hover:bg-white px-12 py-6 border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
-                            Read More
+                            Get Your Full Report
                         </Button>
                     </div>
 

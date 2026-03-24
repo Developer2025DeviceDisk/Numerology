@@ -54,7 +54,6 @@ export default function ContactPage() {
             <Section className="pt-32 pb-20 md:pt-48 md:pb-32 bg-[#F4F1EA] text-center relative overflow-hidden">
                 {/* Background Decoration */}
                 <div className="absolute inset-0 pointer-events-none opacity-20">
-                    <div className="absolute top-10 left-10 w-40 h-40 border border-[#C5A065] rounded-full" />
                     <div className="absolute bottom-10 right-10 w-64 h-64 border border-[#C5A065]/50 rounded-full" />
                 </div>
 

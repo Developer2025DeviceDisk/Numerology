@@ -14,7 +14,6 @@ export default function AboutUs() {
             <Section className="pt-32 pb-20 md:pt-48 md:pb-32 bg-[#F4F1EA] text-center relative overflow-hidden">
                 {/* Background Decoration */}
                 <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                    <div className="absolute top-10 left-10 w-32 h-32 border-2 border-[#C5A065] rounded-full" />
                     <div className="absolute bottom-10 right-10 w-64 h-64 border border-[#C5A065] rounded-full" />
                 </div>
 

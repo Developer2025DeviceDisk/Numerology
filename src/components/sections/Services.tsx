@@ -61,7 +61,7 @@ const Services = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service, index) => (
-                    <div key={index} className="group p-8 border border-black/10 bg-[#1f352500] hover:bg-[#1f352500] transition-colors duration-300 rounded-sm">
+                    <div key={index} className="group p-8 border border-gray-200 bg-white shadow-sm hover:shadow-xl rounded-none transition-colors duration-300 rounded-sm">
                         <div className="w-10 h-10 mb-6 text-secondary">
                             {service.icon}
                         </div>
