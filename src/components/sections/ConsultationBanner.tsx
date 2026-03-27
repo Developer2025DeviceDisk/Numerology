@@ -27,7 +27,7 @@ const ConsultationBanner = () => {
     setStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch('http://localhost:5000/api/reports', {
+      const response = await fetch('https://numerloogy-backend.onrender.com/api/reports', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,14 +35,23 @@ const ConsultationBanner = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        // Handle PDF download
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Numerology_Report_${formData.fullName.replace(/\s+/g, '_')}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
 
-      if (data.success) {
-        setStatus({ type: 'success', message: 'Report claimed successfully! Check your database.' });
-        // Optional: Reset form
+        setStatus({ type: 'success', message: 'Report generated and download started!' });
         setFormData({ fullName: '', email: '', phone: '', dob: '', gender: '', location: '' });
       } else {
-        setStatus({ type: 'error', message: data.message || 'Something went wrong.' });
+        const errorData = await response.json();
+        setStatus({ type: 'error', message: errorData.message || 'Something went wrong.' });
       }
     } catch (error) {
       console.error("Connection Error:", error);

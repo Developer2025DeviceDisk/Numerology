@@ -24,7 +24,7 @@ export default function ContactPage() {
     e.preventDefault();
     
     try {
-        const response = await fetch('http://localhost:5000/api/contact', {
+        const response = await fetch('https://numerloogy-backend.onrender.com/api/contact', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export default function ContactPage() {
         }
     } catch (error) {
         console.error("Connection Refused:", error);
-        alert("Check if your Node.js server is running on Port 5000!");
+        alert("Check if your Node.js server is running on Render!");
     }
 };
 

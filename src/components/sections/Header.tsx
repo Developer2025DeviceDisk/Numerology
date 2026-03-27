@@ -20,8 +20,8 @@ const Header = () => {
     const navLinks = [
         { name: "About Us", href: "/about-us" },
         { name: "Contact Us", href: "/contact" },
-        { name: "Blog", href: "/blog",hasDropdown: false },
-        { name: "Get Free Report", href: "/ConsultationBanner.tsx" },
+        { name: "Blog", href: "/blog", hasDropdown: false },
+        // { name: "Get Free Report", href: "/ConsultationBanner.tsx" },
     ];
 
     return (
@@ -62,7 +62,7 @@ const Header = () => {
                         GET YOUR FULL REPORT
                     </Button>
                 </div>
-              
+
                 {/* Mobile Menu Toggle */}
                 <button
                     className="md:hidden text-gray-800"
