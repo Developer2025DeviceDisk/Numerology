@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   title: "Mahakaal - Infinite Power of Numerology",
   description: "Unlock your destiny with ancient numerology wisdom.",
 };
+import StickyBottomBar from "@/components/sections/StickyBottomBar";
 
 export default function RootLayout({
   children,
@@ -31,9 +32,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased pb-28 sm:pb-20`}
       >
         {children}
+        <StickyBottomBar />
       </body>
     </html>
   );

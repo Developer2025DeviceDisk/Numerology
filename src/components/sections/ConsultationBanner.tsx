@@ -62,7 +62,8 @@ const ConsultationBanner = () => {
   };
 
   return (  
-    <div className="bg-[#F9F5EE]">
+    <div id="consultation" className="bg-[#F9F5EE]">
+
       <main className="max-w-7xl mx-auto px-6 md:px-16 py-12 lg:py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         
         <div className="space-y-8">
