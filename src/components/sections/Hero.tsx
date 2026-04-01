@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Button from "../ui/Button";
 import Section from "../ui/Section";
-import { Sparkle, Moon, Star } from "lucide-react";
+import { Sparkle,  Star } from "lucide-react";
 
 const Hero = () => {
     return (
@@ -28,7 +28,7 @@ const Hero = () => {
                         Consultation For Free
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-serif font-medium leading-[0.9] text-secondary">
+                    <h1 className="text-2xl md:text-7xl font-serif font-medium leading-[0.9] text-secondary">
                         Infinite power of <br />
                         <span className="italic">numerology</span>
                     </h1>
@@ -38,8 +38,8 @@ const Hero = () => {
                     </p>
 
                     <div className="pt-4 pl-1">
-                        <Button size="sm" className="rounded-m hover:bg-white px-12 py-6 border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
-                            Get Your Full Report
+                        <Button size="sm" className="rounded-sm hover:bg-white px-12 py-6 border border-black-2 !text-black font-bold tracking-semibold bg-white shadow-none uppercase">
+                            BUY NOW AT 50% OFF
                         </Button>
                     </div>
 
