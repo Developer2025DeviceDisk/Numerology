@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
-import Button from "../ui/Button";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -81,9 +80,7 @@ const Header = () => {
                                 {link.name}
                             </Link>
                         ))}
-                        <Button className="w-full" size="sm">
-                            Get Your  Report
-                        </Button>
+
                     </nav>
                 </div>
             )}
