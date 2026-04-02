@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Button from "../ui/Button";
 import Section from "../ui/Section";
-import { Sparkle, Compass } from "lucide-react";
+import {Compass } from "lucide-react";
 import Link from "next/link";
 
 const AboutTransform = () => {
@@ -66,11 +66,13 @@ const AboutTransform = () => {
                     </p>
 
                     <p className="text-base text-gray-600 leading-relaxed max-w-lg pl-1">
-                        By analyzing numbers derived from a person's birth date and name, numerologists claim to reveal insights into personality traits, life purpose.
+                        By analyzing numbers derived from a person&apos;s birth date and name, numerologists claim to reveal insights into personality traits, life purpose.
                     </p>
                     <Link href="/about-us" passHref>
                     <div className="pt-6 pl-1">
-                        <Button size="sm" className="rounded-m px-10 py-5 hover:bg-white border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
+                        <Button 
+                            size="sm"
+                         className="rounded-m px-1 py-3 hover:bg-white border border-black-2 !text-black font-bold tracking-wider bg-white shadow-none uppercase">
                             Read More
                         </Button>
                     </div>

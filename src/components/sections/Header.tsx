@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Sparkles, ChevronDown } from "lucide-react";
-import Button from "../ui/Button";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -56,12 +55,7 @@ const Header = () => {
                     ))}
                 </nav>
 
-                {/* Desktop CTA */}
-                <div className="hidden md:block">
-                    <Button size="sm" variant="secondary" className="rounded-m hover:bg-white focus:outline-none focus:ring-2 !border-black bg-white text-black px-6">
-                        GET YOUR FULL REPORT
-                    </Button>
-                </div>
+               
 
                 {/* Mobile Menu Toggle */}
                 <button
@@ -86,9 +80,7 @@ const Header = () => {
                                 {link.name}
                             </Link>
                         ))}
-                        <Button className="w-full" size="sm">
-                            Get Your  Report
-                        </Button>
+
                     </nav>
                 </div>
             )}

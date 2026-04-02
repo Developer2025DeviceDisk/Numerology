@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Section from "../ui/Section";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../ui/Button";
 import Link from 'next/link';
@@ -49,7 +48,7 @@ const FAQ = () => {
                             <span className="italic">more questions</span>
                         </h2>
                         <p className="text-gray-600 text-sm">
-                            Can't find the answer you're looking for? Reach out to our customer support team.
+                            Can&apos;t find the answer you&apos;re looking for? Reach out to our customer support team.
                         </p>
                     </div>
 
