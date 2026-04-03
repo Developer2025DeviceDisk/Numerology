@@ -62,7 +62,7 @@ export default function ContactPage() {
                         Contact Us
                     </div>
                     <h1 className="text-5xl md:text-7xl font-serif font-medium text-gray-900 mb-6">
-                        We'd love to <br />
+                        We&apos;d love to <br />
                         <span className="italic text-secondary ">hear from you</span>
                     </h1>
                     <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">

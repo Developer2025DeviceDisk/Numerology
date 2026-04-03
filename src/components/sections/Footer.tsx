@@ -34,10 +34,9 @@ const Footer = () => {
                 // Captures "Email already exists" or "Invalid email" from your backend
                 setStatus({ type: "error", message: data.message || "Something went wrong." });
             }
-        } catch (err) {
-            setStatus({ type: "error", message: "Cannot connect to server. Is it running?" });
-        } finally {
-            setLoading(false);
+        } catch (error) {
+            console.error("Error connecting to backend:", error);
+            setStatus({ type: "error", message: "Unable to connect to server." });
         }
     };
 

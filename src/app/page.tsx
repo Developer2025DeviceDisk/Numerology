@@ -17,8 +17,9 @@ export default function Home() {
       <AboutTransform />
       <Services />
       <ZodiacSection />
-      <FAQ />
+   
       <ConsultationBanner />
+         <FAQ />
       <Testimonials />
       <Footer />
     </main>
