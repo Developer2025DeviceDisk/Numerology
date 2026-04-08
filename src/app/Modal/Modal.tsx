@@ -1,59 +1,107 @@
 "use client";
 
 import { useState } from "react";
+import { submitModal } from "../../Service/api";
 
-export default function Modal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+type FormState = {
+  name: string;
+  dob: string;
+  phone: string;
+  email: string;
+};
 
-  const [form, setForm] = useState({
+export default function Modal({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  const [form, setForm] = useState<FormState>({
     name: "",
     dob: "",
     phone: "",
     email: "",
-    concern: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   if (!isOpen) return null;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  // ✅ FIX: safer typing + cleaner update
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleClose = () => {
-    setForm({
-      name: "",
-      dob: "",
-      phone: "",
-      email: "",
-      concern: "",
-    });
+    setForm({ name: "", dob: "", phone: "", email: "" });
+    setStatus(null);
     onClose();
   };
 
-  const handleSubmit = () => {
-    if (!form.phone || !form.email) {
-      alert("Please fill contact details");
+  // ✅ FIX: prevent double click + validation improved
+  const handleSubmit = async () => {
+    if (loading) return;
+
+    if (!form.name || !form.email || !form.phone || !form.dob) {
+      setStatus({
+        type: "error",
+        message: "Please fill all fields.",
+      });
       return;
     }
 
-    console.log("Form Data:", form);
-    alert("Submitted successfully!");
-    handleClose();
+    setLoading(true);
+    setStatus(null);
+
+    try {
+      const data = await submitModal({
+        fullName: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        dob: form.dob,
+      });
+
+      setStatus({
+        type: "success",
+        message: data?.message || "Submitted successfully!",
+      });
+
+      setForm({ name: "", dob: "", phone: "", email: "" });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setStatus({
+          type: "error",
+          message: error.message,
+        });
+      } else {
+        setStatus({
+          type: "error",
+          message: "Something went wrong",
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    // ✅ OVERLAY CLICK HANDLER
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
       onClick={handleClose}
     >
-
-      {/* ✅ STOP PROPAGATION (VERY IMPORTANT) */}
       <div
         className="bg-white w-full max-w-lg rounded-2xl p-6 relative shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-
-        {/* Close */}
         <button
           onClick={handleClose}
           className="absolute top-3 right-3 text-gray-500 text-xl"
@@ -61,13 +109,11 @@ export default function Modal({ isOpen, onClose }: { isOpen: boolean; onClose: (
           ✕
         </button>
 
-        {/* Title */}
-        <h2 className="text-2xl font-bold text-center mb-2">
-          🔮 Get Your Personalized Numerology Report
+        <h2 className="text-2xl font-bold text-center mb-4">
+          Get Your Personalized Numerology Report
         </h2>
 
         <div className="space-y-4">
-
           <input
             type="text"
             name="name"
@@ -88,7 +134,7 @@ export default function Modal({ isOpen, onClose }: { isOpen: boolean; onClose: (
           <input
             type="tel"
             name="phone"
-            placeholder="WhatsApp Number"
+            placeholder="Phone Number"
             value={form.phone}
             onChange={handleChange}
             className="w-full border p-3 rounded-lg"
@@ -103,25 +149,26 @@ export default function Modal({ isOpen, onClose }: { isOpen: boolean; onClose: (
             className="w-full border p-3 rounded-lg"
           />
 
-          <textarea
-            name="concern"
-            placeholder="Your concern (Career, Love, Money...)"
-            value={form.concern}
-            onChange={handleChange}
-            className="w-full border p-3 rounded-lg"
-          />
-
           <button
             onClick={handleSubmit}
-            className="w-full bg-black text-white py-3 rounded-lg font-bold"
+            disabled={loading}
+            className="w-full bg-black text-white py-3 rounded-lg font-bold disabled:opacity-50"
           >
-            🔒 Get My Report
+            {loading ? "Submitting..." : "🔒 Get My Report"}
           </button>
-        </div>
 
-        <p className="text-xs text-center text-gray-500 mt-4">
-          
-        </p>
+          {status && (
+            <p
+              className={`text-sm mt-2 text-center ${
+                status.type === "success"
+                  ? "text-green-600"
+                  : "text-red-500"
+              }`}
+            >
+              {status.message}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

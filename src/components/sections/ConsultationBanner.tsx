@@ -1,8 +1,10 @@
 "use client";
-import React, { useState } from "react";
 
-const ConsultationBanner = () => {
-  const [formData, setFormData] = useState({
+import React, { useState } from "react";
+import { generateReport, ConsultationData } from "../../Service/api";
+
+const ConsultationBanner: React.FC = () => {
+  const [formData, setFormData] = useState<ConsultationData>({
     fullName: "",
     email: "",
     phone: "",
@@ -21,7 +23,7 @@ const ConsultationBanner = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.gender) {
@@ -30,14 +32,44 @@ const ConsultationBanner = () => {
     }
 
     setLoading(true);
+    setStatus({ type: "", message: "" });
 
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const pdfBlob = await generateReport(formData);
+
+      // Trigger download
+      const url = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Numerology_Report_${formData.fullName.replace(/\s+/g, "_")}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
       setStatus({
         type: "success",
-        message: "Report requested successfully!",
+        message: "Report generated successfully! Download started.",
       });
-    }, 1500);
+
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        dob: "",
+        gender: "",
+        birthPlace: "",
+        concern: "",
+      });
+    } catch ( error: unknown) {
+      console.error("Submission error:", error);
+      setStatus({
+        type: "error",
+        message: `${(error as Error).message} || "Failed to generate report."`,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputClass =
@@ -48,7 +80,6 @@ const ConsultationBanner = () => {
   return (
     <div className="bg-[#F9F5EE] py-20">
       <main className="w-full max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-[1fr_520px] gap-12 lg:gap-20 items-start lg:items-center">
-        
         {/* LEFT CONTENT */}
         <div className="space-y-6 max-w-lg lg:max-w-xl text-center lg:text-left">
           <span className="text-xs tracking-widest text-gray-500 uppercase">
@@ -67,7 +98,6 @@ const ConsultationBanner = () => {
 
         {/* FORM */}
         <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 w-full max-w-lg lg:max-w-xl mx-auto lg:ml-auto">
-          
           {status.message && (
             <div
               className={`mb-4 p-3 rounded-lg text-sm ${
@@ -81,7 +111,6 @@ const ConsultationBanner = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            
             {/* Full Name */}
             <div>
               <label className={labelClass}>Full Name *</label>
@@ -143,6 +172,7 @@ const ConsultationBanner = () => {
                   value={formData.gender}
                   onChange={handleChange}
                   className={inputClass}
+                  required
                 >
                   <option value="">Select</option>
                   <option value="male">Male</option>
@@ -164,23 +194,6 @@ const ConsultationBanner = () => {
               />
             </div>
 
-            {/* Concern */}
-            <div>
-              <label className={labelClass}>Main Concern</label>
-              <select
-                name="concern"
-                value={formData.concern}
-                onChange={handleChange}
-                className={inputClass}
-              >
-                <option value="">Select your concern</option>
-                <option value="career">Career</option>
-                <option value="love">Love</option>
-                <option value="money">Money</option>
-                <option value="health">Health</option>
-              </select>
-            </div>
-
             {/* Submit */}
             <button
               type="submit"
@@ -189,10 +202,6 @@ const ConsultationBanner = () => {
             >
               {loading ? "Processing..." : "Get Free Report"}
             </button>
-
-            <p className="text-xs text-gray-400 text-center">
-             
-            </p>
           </form>
         </div>
       </main>

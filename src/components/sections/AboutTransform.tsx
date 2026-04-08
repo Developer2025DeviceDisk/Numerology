@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const AboutTransform = () => {
   return (
-    <Section className="py-16 md:py-24 lg:py-32 bg-background overflow-hidden relative">
+    <Section className="pt-10 pb-16 md:pt-16 md:pb-24 lg:pt-20 lg:pb-32 -translate-y-4 md:-translate-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 lg:gap-24 xl:gap-100 items-center">
         
         {/* LEFT */}
