@@ -10,10 +10,10 @@ const Footer = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{
-    type: "success" | "error";
+    type: "success" | "error" |null;
     message: string;
   }>({
-    type: "",
+    type: null,
     message: "",
   });
 
@@ -27,7 +27,7 @@ const Footer = () => {
     }
 
     setLoading(true);
-    setStatus({ type: "", message: "" });
+    setStatus({ type: null, message: "" });
 
     try {
       const res = await subscribeUser({ email });
