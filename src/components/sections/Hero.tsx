@@ -1,24 +1,100 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../ui/Button";
 import Section from "../ui/Section";
 import { Sparkle, Star } from "lucide-react";
-import Modal from "../../app/Modal/Modal"; // ✅ FIXED IMPORT (move Modal to components)
+import Modal from "../../app/Modal/Modal";
+import Link from "next/link";
+import usePricing from "@/hooks/usePricing";
 
-const Hero = () => {
+// ✅ Pricing Type
+type PricingType = {
+  price: number;
+  finalPrice: number;
+  discount: number;
+  buttonText: string;
+  countdown: number;
+};
+
+const Hero: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [isReady, setIsReady] = useState(false);
+
+  const pricing = usePricing() as PricingType | null;
+
+  // ✅ TIMER SETUP (shared with StickyBar)
+  useEffect(() => {
+    if (!pricing?.countdown) return;
+
+    const savedEndTime = localStorage.getItem("offer_end_time");
+
+    if (savedEndTime) {
+      const remaining = Math.floor(
+        (parseInt(savedEndTime) - Date.now()) / 1000
+      );
+      setTimeLeft(remaining > 0 ? remaining : 0);
+    } else {
+      const endTime = Date.now() + pricing.countdown * 1000;
+      localStorage.setItem("offer_end_time", endTime.toString());
+      setTimeLeft(pricing.countdown);
+    }
+
+    setIsReady(true);
+  }, [pricing]);
+
+  // ✅ COUNTDOWN
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  // ✅ EXPIRED LOGIC
+  const isExpired = isReady && timeLeft <= 0;
 
   return (
     <>
-      <Section className="pt-32 pb-10 md:pt-44 md:pb-20 overflow-hidden bg-background relative">
-        
+      <Section className="pt-32 pb-10 md:pt-20 md:pb-20 overflow-hidden bg-background relative">
+
         {/* Background Stars */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
-          <Star className="absolute top-1/4 left-10 w-6 h-6 text-secondary" />
-          <Star className="absolute top-10 right-1/4 w-4 h-4 text-secondary" />
-          <Star className="absolute bottom-1/3 left-1/3 w-3 h-3 text-secondary" />
+        <div className="absolute inset-0 pointer-events-none opacity-70">
+
+          <motion.div
+            className="absolute top-1/4 left-10"
+            animate={{ y: [0, -10, 0], scale: [1, 1.1, 1] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            <Star className="w-6 h-6 text-secondary" />
+          </motion.div>
+
+          <motion.div
+            className="absolute top-[30%] right-[10%]"
+            animate={{ y: [0, -8, 0], scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 4, repeat: Infinity }}
+          >
+            <Star className="w-4 h-4 text-secondary" />
+          </motion.div>
+
+          <motion.div
+            className="absolute bottom-1/3 left-[30%]"
+            animate={{ y: [0, -12, 0], scale: [1, 1.12, 1] }}
+            transition={{ duration: 5, repeat: Infinity }}
+          >
+            <Star className="w-3 h-3 text-secondary" />
+          </motion.div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -43,14 +119,29 @@ const Hero = () => {
               Unlock the hidden meaning of numbers and discover what destiny holds for you.
             </p>
 
-            {/* BUTTON */}
-            <Button
-              size="md"
-              onClick={() => setOpen(true)}
-              className="rounded-md border border-black !text-black font-bold uppercase bg-white shadow-none"
-            >
-              BUY NOW AT 50% OFF
-            </Button>
+            <div className="flex flex-col items-start">
+
+              {/* ✅ BUTTON FIXED */}
+              <Button
+                size="md"
+                onClick={() => setOpen(true)}
+                className="rounded-xl border border-black !text-black font-bold uppercase bg-white shadow-none"
+              >
+                {!isExpired && pricing?.discount ? (
+                  <>BUY NOW AT {pricing.discount}% OFF</>
+                ) : (
+                  <>BUY NOW</>
+                )}
+              </Button>
+
+              <Link href="/#Consultation">
+                <span className="relative mt-3 inline-block text-sm font-medium text-secondary group cursor-pointer">
+                  Or Get a short For Free
+                  <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                </span>
+              </Link>
+
+            </div>
 
             {/* STATS */}
             <div className="flex items-center gap-12 pt-12 pl-1 border-t border-gray-200 mt-12 max-w-md">
@@ -69,7 +160,7 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* RIGHT */}
+          {/* RIGHT (UNCHANGED) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -78,51 +169,28 @@ const Hero = () => {
           >
             <div className="relative w-[350px] h-[550px] md:w-[420px] md:h-[650px] bg-[#EAE4D9] rounded-t-full rounded-b-[100px] overflow-hidden shadow-2xl border-4 border-white">
 
-              {/* SVG */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 600">
                 <path d="M-50,200 Q150,100 250,50 T450,150" fill="none" stroke="#E07A5F" strokeWidth="1.5" opacity="0.6" />
                 <path d="M50,550 Q200,450 350,400" fill="none" stroke="#E07A5F" strokeWidth="1.5" opacity="0.6" />
               </svg>
 
-              {/* FLOATING NUMBERS (FIXED) */}
-              <motion.div
-                className="absolute top-[5%] left-[18%]"
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
+              <motion.div className="absolute top-[5%] left-[18%]" animate={{ y: [0, -15, 0] }} transition={{ duration: 3, repeat: Infinity }}>
                 <span className="text-[150px] font-serif">45</span>
               </motion.div>
 
-              <motion.div
-                className="absolute bottom-[30%] right-[8%]"
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
+              <motion.div className="absolute bottom-[30%] right-[8%]" animate={{ y: [0, -12, 0] }} transition={{ duration: 4, repeat: Infinity }}>
                 <span className="text-[120px] font-serif">7</span>
               </motion.div>
 
-              <motion.div
-                className="absolute -bottom-[2%] right-[50%]"
-                animate={{ y: [0, -18, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              >
+              <motion.div className="absolute -bottom-[2%] right-[50%]" animate={{ y: [0, -18, 0] }} transition={{ duration: 5, repeat: Infinity }}>
                 <span className="text-[150px] font-serif">18</span>
               </motion.div>
 
-              {/* Sparkle */}
-              <motion.div
-                className="absolute top-[32%] left-[32%]"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
+              <motion.div className="absolute top-[32%] left-[32%]" animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 3, repeat: Infinity }}>
                 <Sparkle className="w-10 h-10 text-[#C5A065]" />
               </motion.div>
 
-              <motion.div
-                className="absolute top-[68%] right-[68%]"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
+              <motion.div className="absolute top-[68%] right-[68%]" animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 3, repeat: Infinity }}>
                 <Sparkle className="w-10 h-10 text-[#C5A065]" />
               </motion.div>
 
@@ -132,11 +200,7 @@ const Hero = () => {
         </div>
       </Section>
 
-      {/* MODAL */}
-      <Modal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-      />
+      <Modal isOpen={open} onClose={() => setOpen(false)} />
     </>
   );
 };

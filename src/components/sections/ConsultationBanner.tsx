@@ -1,150 +1,206 @@
 "use client";
-import React, { useState } from 'react';
-import { Calendar } from 'lucide-react';
 
-const ConsultationBanner = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    dob: '',
-    gender: '', // Stores 'male' or 'female'
-    birthPlace: '',
+import React, { useState } from "react";
+import { generateReport, ConsultationData } from "../../Service/api";
+
+const ConsultationBanner: React.FC = () => {
+  const [formData, setFormData] = useState<ConsultationData>({
+    fullName: "",
+    email: "",
+    phone: "",
+    dob: "",
+    gender: "",
+    birthPlace: "",
+    concern: "",
   });
 
-  const [status, setStatus] = useState({ type: '', message: '' });
+  const [status, setStatus] = useState({ type: "", message: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Function to handle gender selection specifically
-  const handleGenderSelect = (val: string) => {
-    setFormData({ ...formData, gender: val });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!formData.gender) {
-      setStatus({ type: 'error', message: 'Please select a gender.' });
+      setStatus({ type: "error", message: "Please select a gender." });
       return;
     }
+
     setLoading(true);
-    // ... rest of your fetch logic ...
+    setStatus({ type: "", message: "" });
+
+    try {
+      const pdfBlob = await generateReport(formData);
+
+      // Trigger download
+      const url = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Numerology_Report_${formData.fullName.replace(/\s+/g, "_")}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      setStatus({
+        type: "success",
+        message: "Report generated successfully! Download started.",
+      });
+
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        dob: "",
+        gender: "",
+        birthPlace: "",
+        concern: "",
+      });
+    } catch ( error: unknown) {
+      console.error("Submission error:", error);
+      setStatus({
+        type: "error",
+        message: `${(error as Error).message} || "Failed to generate report."`,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const getInputClass = (value: string) => 
-    `w-full h-[50px] p-4 bg-gray-50 border border-transparent rounded-2xl 
-     focus:bg-white focus:border-[#B08D57]/30 focus:outline-none transition-all 
-     appearance-none outline-none ${value ? 'text-black' : 'text-gray-400'}`;
+  const inputClass =
+    "w-full h-[52px] px-4 bg-white border border-gray-200 rounded-xl text-black focus:outline-none focus:border-[#B08D57] focus:ring-2 focus:ring-[#B08D57]/20 transition-all";
+
+  const labelClass = "text-sm text-gray-600 mb-1 block";
 
   return (
-    <div id="consultation" className="bg-[#F9F5EE]">
-      <main className="max-w-6xl mx-auto px-4 md:px-10 py-10 lg:py-30 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        
-        <div className="space-y-6">
-          <div>
-            <span className="text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase">Free Report</span>
-            <h1 className="mt-4 text-5xl md:text-7xl font-bold text-[#B08D57] leading-[1.1]">
-              Free numerological <br />
-              <span className="opacity-90">express consultation</span>
-            </h1>
-          </div>
-          <p className="text-gray-500 text-lg max-w-md leading-relaxed">
-            Contact us for a free 15-minute consultation to understand how
-            numerology can help you achieve your life goals.
+    <div className="bg-[#F9F5EE] py-20">
+      <main className="w-full max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-[1fr_520px] gap-12 lg:gap-20 items-start lg:items-center">
+        {/* LEFT CONTENT */}
+        <div className="space-y-6 max-w-lg lg:max-w-xl text-center lg:text-left">
+          <span className="text-xs tracking-widest text-gray-500 uppercase">
+            Free Consultation
+          </span>
+
+          <h1 className="text-[clamp(36px,5vw,64px)] font-bold text-[#B08D57] leading-tight">
+            Get Your Personalized <br /> Numerology Report
+          </h1>
+
+          <p className="text-gray-600 text-lg leading-relaxed">
+            Discover insights about your career, relationships, and life path
+            through a detailed numerology analysis tailored just for you.
           </p>
         </div>
 
-        <div className="bg-white p-8 md:p-12 rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-50 relative">
+        {/* FORM */}
+        <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 w-full max-w-lg lg:max-w-xl mx-auto lg:ml-auto">
           {status.message && (
-            <div className={`mb-4 p-3 rounded-xl text-sm font-medium ${
-              status.type === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
-            }`}>
+            <div
+              className={`mb-4 p-3 rounded-lg text-sm ${
+                status.type === "success"
+                  ? "bg-green-50 text-green-600"
+                  : "bg-red-50 text-red-600"
+              }`}
+            >
               {status.message}
             </div>
           )}
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Full Name"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-              className={getInputClass(formData.fullName)}
-            />
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className={getInputClass(formData.email)}
-            />
-
-            {/* Date of Birth */}
-            <div className="relative">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Full Name */}
+            <div>
+              <label className={labelClass}>Full Name *</label>
               <input
-                type="date"
-                name="dob"
-                value={formData.dob}
+                type="text"
+                name="fullName"
+                value={formData.fullName}
                 onChange={handleChange}
                 required
-                className={`${getInputClass(formData.dob)} cursor-pointer block relative z-10 
-                [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:w-6 [&::-webkit-calendar-picker-indicator]:h-6 [&::-webkit-calendar-picker-indicator]:cursor-pointer`}
+                className={inputClass}
               />
-              <Calendar className="absolute right-4 top-4 text-gray-300 w-5 h-5 z-20 pointer-events-none" />
             </div>
 
-            {/* NEW GENDER SELECTION BUTTONS */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-black tracking-widest text-gray-400 uppercase ml-2">Gender</label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => handleGenderSelect('male')}
-                  className={`h-[45px] rounded-4xl font-bold transition-all border-2 flex items-center justify-center ${
-                    formData.gender === 'male' 
-                    ? 'bg-[#B08D57] border-[#B08D57] text-white shadow-md shadow-[#B08D57]/20' 
-                    : 'bg-gray-50 border-transparent text-gray-300 hover:bg-gray-100'
-                  }`}
-                >
-                  Male
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleGenderSelect('female')}
-                  className={`h-[45px] rounded-4xl font-bold transition-all border-2 flex items-center justify-center ${
-                    formData.gender === 'female' 
-                    ? 'bg-[#B08D57] border-[#B08D57] text-white shadow-md shadow-[#B08D57]/20' 
-                    : 'bg-gray-50 border-transparent text-gray-300 hover:bg-gray-100'
-                  }`}
-                >
-                  Female
-                </button>
+            {/* Email & Phone */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Email *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className={inputClass}
+                />
+              </div>
+
+              <div>
+                <label className={labelClass}>Phone *</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className={inputClass}
+                />
               </div>
             </div>
 
-            <input
-              type="text"
-              name="birthPlace"
-              placeholder="Birth Place"
-              value={formData.birthPlace}
-              onChange={handleChange}
-              className={getInputClass(formData.birthPlace)}
-            />
+            {/* DOB & Gender */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Date of Birth *</label>
+                <input
+                  type="date"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  required
+                  className={inputClass}
+                />
+              </div>
 
+              <div>
+                <label className={labelClass}>Gender *</label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className={inputClass}
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Birth Place */}
+            <div>
+              <label className={labelClass}>Birth Place</label>
+              <input
+                type="text"
+                name="birthPlace"
+                value={formData.birthPlace}
+                onChange={handleChange}
+                className={inputClass}
+              />
+            </div>
+
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-5 mt-1 border-2 border-[#B08D57] text-[#B08D57] font-black rounded-2xl hover:bg-[#B08D57] hover:text-white transition-all duration-300 uppercase tracking-widest text-sm shadow-lg shadow-[#B08D57]/10 disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-[#B08D57] text-white font-semibold hover:opacity-90 transition-all disabled:opacity-50"
             >
-              {loading ? 'Processing...' : 'Get Free Report'}
+              {loading ? "Processing..." : "Get Free Report"}
             </button>
           </form>
         </div>

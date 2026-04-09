@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Section from "../ui/Section";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../ui/Button";
-import Link from 'next/link';
+import Link from "next/link";
 
 const FAQ = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -12,15 +12,18 @@ const FAQ = () => {
     const faqs = [
         {
             question: "What is Numerology?",
-            answer: "Numerology is the study of numbers and their energetic influence on our lives. It reveals hidden patterns, personality traits, and life cycles based on your birth date and name.",
+            answer:
+                "Numerology is the study of numbers and their energetic influence on our lives. It reveals hidden patterns, personality traits, and life cycles based on your birth date and name.",
         },
         {
             question: "How can a reading help me?",
-            answer: "A reading can provide clarity on your life purpose, relationship compatibility, career path, and upcoming opportunities. It acts as a roadmap for your soul's journey.",
+            answer:
+                "A reading can provide clarity on your life purpose, relationship compatibility, career path, and upcoming opportunities. It acts as a roadmap for your soul's journey.",
         },
         {
             question: "Do I need my birth time?",
-            answer: "For a full comprehensive chart, birth time is recommended but much can be done with just the birth date and full name.",
+            answer:
+                "For a full comprehensive chart, birth time is recommended but much can be done with just the birth date and full name.",
         },
     ];
 
@@ -29,12 +32,58 @@ const FAQ = () => {
             <div className="grid md:grid-cols-2 gap-16 items-center ">
                 {/* Left - Visuals */}
                 <div className="relative h-[500px] hidden md:flex items-center justify-center">
-                    <div className="relative font-serif text-[280px] leading-none text-[#1C1C1C] opacity-90 select-none">
+                    
+                    {/* Floating Main Number */}
+                    <motion.div
+                        className="relative font-serif text-[280px] leading-none text-[#1C1C1C] opacity-90 select-none"
+                        animate={{ y: [0, -20, 0] }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    >
                         8
-                        <span className="absolute -top-10 -right-20 text-[180px] text-[#C5A065] opacity-80 rotate-12">2</span>
-                        <span className="absolute -bottom-10 -left-20 text-[200px] text-[#1C1C1C] opacity-10 -rotate-12">6</span>
-                        <span className="absolute bottom-20 -right-32 text-[220px] text-[#1C1C1C] opacity-5">?</span>
-                    </div>
+
+                        {/* Floating 2 */}
+                        <motion.span
+                            className="absolute -top-10 -right-25 text-[180px] text-[#C5A065] opacity-80 rotate-12"
+                            animate={{ y: [0, -15, 0] }}
+                            transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                            }}
+                        >
+                            2
+                        </motion.span>
+
+                        {/* Floating 6 */}
+                        <motion.span
+                            className="absolute -bottom-10 -left-30 text-[200px] text-[#1C1C1C] opacity-10 -rotate-12"
+                            animate={{ y: [0, 15, 0] }}
+                            transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                            }}
+                        >
+                            6
+                        </motion.span>
+
+                        {/* Floating ? */}
+                        <motion.span
+                            className="absolute bottom-70 -right-60 text-[220px] text-[#1C1C1C] opacity-5"
+                            animate={{ y: [0, -10, 0] }}
+                            transition={{
+                                duration: 1,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                            }}
+                        >
+                            19
+                        </motion.span>
+                    </motion.div>
                 </div>
 
                 {/* Right - Accordion */}
@@ -56,14 +105,23 @@ const FAQ = () => {
                         {faqs.map((faq, index) => (
                             <div
                                 key={index}
-                                className={`border-b border-gray-200 transition-all duration-300 ${activeIndex === index ? "pb-6" : "pb-4"
-                                    }`}
+                                className={`border-b border-gray-200 transition-all duration-300 ${
+                                    activeIndex === index ? "pb-6" : "pb-4"
+                                }`}
                             >
                                 <button
                                     className="w-full flex items-center justify-between text-left focus:outline-none group"
-                                    onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                                    onClick={() =>
+                                        setActiveIndex(activeIndex === index ? null : index)
+                                    }
                                 >
-                                    <span className={`font-serif text-xl ${activeIndex === index ? "text-secondary" : "text-gray-900 group-hover:text-secondary transition-colors"}`}>
+                                    <span
+                                        className={`font-serif text-xl ${
+                                            activeIndex === index
+                                                ? "text-secondary"
+                                                : "text-gray-900 group-hover:text-secondary transition-colors"
+                                        }`}
+                                    >
                                         {faq.question}
                                     </span>
                                     {activeIndex === index ? (
@@ -72,6 +130,7 @@ const FAQ = () => {
                                         <span className="text-gray-400 text-2xl">+</span>
                                     )}
                                 </button>
+
                                 <AnimatePresence>
                                     {activeIndex === index && (
                                         <motion.div
@@ -89,13 +148,14 @@ const FAQ = () => {
                             </div>
                         ))}
                     </div>
+
                     <Link href="/contact" passHref>
-                    <div className="pt-4">
-                        <Button className="rounded-m bg-white shadow-none border border-black-2 !text-black hover:bg-white px-8 py-3 text-xs uppercase tracking-wider font-bold">
-                            Contact Us
-                        </Button>
-                   </div>
-                     </Link>
+                        <div className="pt-4">
+                            <Button className="rounded-m bg-white shadow-none border border-black-2 !text-black hover:bg-white px-8 py-3 text-xs uppercase tracking-wider font-bold">
+                                Contact Us
+                            </Button>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </Section>
