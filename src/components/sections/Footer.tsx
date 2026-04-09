@@ -66,8 +66,12 @@ const Footer = () => {
             </p>
             <div className="text-sm text-gray-600 space-y-1">
               <p>📍 India</p>
-              <p>📞 800.275.8777</p>
-              <p>📧 support@mahakaal.com</p>
+            <a href="tel:8002758777">
+              <p>📞 Call Us</p>
+            </a>
+            <a href="mailto:support@mahakaal.com">
+              <p>📧 Email Us</p>
+            </a>
             </div>
           </div>
 
