@@ -107,7 +107,7 @@ const Terms = () => {
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-2">Contact Us</h2>
         <ul className="list-disc pl-6">
-          <li>Email: avconnect156@gmail.com</li>
+          <li>emailus </li>
           <li>
             Website:{" "}
             <a
