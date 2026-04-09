@@ -8,9 +8,13 @@ const usePricing = () => {
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-        const res = await fetch(API_URL);
+        const res = await fetch(API_URL, {
+          
+           cache: "no-cache",
+          
+        });
         const data = await res.json();
-
+        
         if (res.ok && data?.data) {
           setPricing(data.data);
         }
@@ -18,9 +22,9 @@ const usePricing = () => {
         console.error("❌ Pricing fetch failed:", err);
 
         setPricing({
-          price: 1999,
-          finalPrice: 499,
-          discount: 75,
+          price: null,
+          finalPrice: null,
+          discount: null,
           buttonText: "Get Your Full Report",
         });
       }

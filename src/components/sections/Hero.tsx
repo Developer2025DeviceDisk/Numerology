@@ -1,19 +1,69 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../ui/Button";
 import Section from "../ui/Section";
-import { Sparkle, Star } from "lucide-react"; 
+import { Sparkle, Star } from "lucide-react";
 import Modal from "../../app/Modal/Modal";
-import Link from "next/link"; 
+import Link from "next/link";
 import usePricing from "@/hooks/usePricing";
 
-const Hero = () => {
-  const [open, setOpen] = useState(false);
-  const pricing = usePricing(
+// ✅ Pricing Type
+type PricingType = {
+  price: number;
+  finalPrice: number;
+  discount: number;
+  buttonText: string;
+  countdown: number;
+};
 
-  );
-  const discount = pricing?.discount || 50;
+const Hero: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [isReady, setIsReady] = useState(false);
+
+  const pricing = usePricing() as PricingType | null;
+
+  // ✅ TIMER SETUP (shared with StickyBar)
+  useEffect(() => {
+    if (!pricing?.countdown) return;
+
+    const savedEndTime = localStorage.getItem("offer_end_time");
+
+    if (savedEndTime) {
+      const remaining = Math.floor(
+        (parseInt(savedEndTime) - Date.now()) / 1000
+      );
+      setTimeLeft(remaining > 0 ? remaining : 0);
+    } else {
+      const endTime = Date.now() + pricing.countdown * 1000;
+      localStorage.setItem("offer_end_time", endTime.toString());
+      setTimeLeft(pricing.countdown);
+    }
+
+    setIsReady(true);
+  }, [pricing]);
+
+  // ✅ COUNTDOWN
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  // ✅ EXPIRED LOGIC
+  const isExpired = isReady && timeLeft <= 0;
 
   return (
     <>
@@ -71,15 +121,19 @@ const Hero = () => {
 
             <div className="flex flex-col items-start">
 
+              {/* ✅ BUTTON FIXED */}
               <Button
                 size="md"
                 onClick={() => setOpen(true)}
                 className="rounded-xl border border-black !text-black font-bold uppercase bg-white shadow-none"
               >
-                BUY NOW AT {discount}% OFF
+                {!isExpired && pricing?.discount ? (
+                  <>BUY NOW AT {pricing.discount}% OFF</>
+                ) : (
+                  <>BUY NOW</>
+                )}
               </Button>
 
-              {/* ✅ FIXED LINK */}
               <Link href="/#Consultation">
                 <span className="relative mt-3 inline-block text-sm font-medium text-secondary group cursor-pointer">
                   Or Get a short For Free
@@ -106,7 +160,7 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* RIGHT */}
+          {/* RIGHT (UNCHANGED) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
