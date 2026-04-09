@@ -65,13 +65,13 @@ const Footer = () => {
               Discover the power of numerology and unlock insights about your life.
             </p>
             <div className="text-sm text-gray-600 space-y-1">
-              <p>📍 India</p>
+              {/* <p>📍 India</p>
             <a href="tel:8002758777">
               <p>📞 Call Us</p>
             </a>
             <a href="mailto:support@mahakaal.com">
               <p>📧 Email Us</p>
-            </a>
+            </a> */}
             </div>
           </div>
 
