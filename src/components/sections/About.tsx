@@ -3,7 +3,7 @@
 import React from "react";
 import Section from "../ui/Section";
 import Button from "../ui/Button";
-import { Info } from "lucide-react";
+
 
 const About = () => {
     return (

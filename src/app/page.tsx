@@ -8,6 +8,7 @@ import FAQ from "@/components/sections/FAQ";
 import ConsultationBanner from "@/components/sections/ConsultationBanner";
 import Testimonials from "@/components/sections/Testimonials";
 import Footer from "@/components/sections/Footer";
+import SevenCards from "./SevenCard/sevencard";
 
 export default function Home() {
   return (
@@ -17,8 +18,9 @@ export default function Home() {
       <AboutTransform />
       <Services />
       <ZodiacSection />
-      <FAQ />
+      <SevenCards />
       <ConsultationBanner />
+      <FAQ />
       <Testimonials />
       <Footer />
     </main>

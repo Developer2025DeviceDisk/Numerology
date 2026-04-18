@@ -4,133 +4,149 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Instagram, Facebook, Linkedin } from "lucide-react";
 import Button from "../ui/Button";
+import { subscribeUser } from "../../Service/api";
 
 const Footer = () => {
-    // 1. State for managing the input and server feedback
-    const [email, setEmail] = useState("");
-    const [status, setStatus] = useState({ type: "", message: "" });
-    const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<{
+    type: "success" | "error" |null;
+    message: string;
+  }>({
+    type: null,
+    message: "",
+  });
 
-    // 2. The logic to send data to your MongoDB via Express
-    const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setLoading(true);
-        setStatus({ type: "", message: "" });
+  // ✅ FIX: Added missing handler
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-        try {
-            // Pointing to your existing Express Backend
-            const response = await fetch("https://numerloogy-backend.onrender.com/api/subscribe", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email }),
-            });
+    if (!email) {
+      setStatus({ type: "error", message: "Email is required" });
+      return;
+    }
 
-            const data = await response.json();
+    setLoading(true);
+    setStatus({ type: null, message: "" });
 
-            if (response.ok) {
-                setStatus({ type: "success", message: "Thanks for subscribing!" });
-                setEmail(""); // Reset field on success
-            } else {
-                // Captures "Email already exists" or "Invalid email" from your backend
-                setStatus({ type: "error", message: data.message || "Something went wrong." });
-            }
-        } catch (err) {
-            setStatus({ type: "error", message: "Cannot connect to server. Is it running?" });
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+      const res = await subscribeUser({ email });
 
-    return (
-        <footer className="bg-[#F4F1EA] pt-24 pb-12 overflow-hidden relative border-t border-[#C5A065]/20">
-            {/* Background Decor */}
-            <div className="absolute inset-0 pointer-events-none opacity-30">
-                <div className="absolute -left-20 top-20 w-64 h-64 border border-[#C5A065]/20 rounded-full" />
-                <div className="absolute right-0 bottom-0 w-96 h-96 border border-[#C5A065]/10 rounded-full translate-x-1/2 translate-y-1/2" />
+      setStatus({
+        type: "success",
+        message: res?.message || "Subscribed successfully!",
+      });
+
+      setEmail("");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setStatus({ type: "error", message: error.message });
+      } else {
+        setStatus({ type: "error", message: "Something went wrong" });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <footer className="bg-[#F4F1EA] pt-16 pb-8 border-t border-[#C5A065]/20">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-10 items-start">
+          
+          {/* BRAND */}
+          <div className="space-y-4 text-center sm:text-left">
+            <Link href="/">
+              <h2 className="text-2xl md:text-3xl font-bold text-secondary font-serif">
+                Mahakaal
+              </h2>
+            </Link>
+            <p className="text-gray-600 text-sm">
+              Discover the power of numerology and unlock insights about your life.
+            </p>
+            <div className="text-sm text-gray-600 space-y-1">
+              {/* <p>📍 India</p>
+            <a href="tel:8002758777">
+              <p>📞 Call Us</p>
+            </a>
+            <a href="mailto:support@mahakaal.com">
+              <p>📧 Email Us</p>
+            </a> */}
             </div>
+          </div>
 
-            <div className="container mx-auto px-4 md:px-6 relative z-10">
-                <div className="grid md:grid-cols-3 gap-12 lg:gap-24 mb-20">
-                    {/* Column 1: Brand */}
-                    <div className="space-y-6">
-                        <Link href="/" className="inline-block">
-                            <span className="text-3xl font-bold text-secondary font-serif">Mahakaal</span>
-                        </Link>
-                        <p className="text-gray-600 text-sm leading-relaxed max-w-sm">
-                            Reinventing the way of creating websites, we aim to create the most master-peeced WordPress theme available on the market.
-                        </p>
-                    </div>
-
-                    {/* Column 2: Contact */}
-                    <div className="space-y-6">
-                        <h4 className="font-bold text-xs tracking-widest uppercase text-gray-600">Contact Us</h4>
-                        <div className="space-y-4 text-sm text-gray-600">
-                            <p>202 Helga Springs Rd, Crawford, TN 38554</p>
-                            <p>Call Us: <span className="font-bold text-gray-600">800.275.8777</span></p>
-                            <p>alex@company.com</p>
-                        </div>
-                    </div>
-
-                    {/* Column 3: Newsletter */}
-                    <div className="space-y-6">
-                        <h4 className="font-bold text-xs tracking-widest uppercase text-gray-600">Sign Up For Email Updates</h4>
-                        
-                        <form onSubmit={handleSubscribe} className="flex bg-white p-1 shadow-sm border border-gray-100">
-                            <input
-                                type="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Your e-mail address"
-                                className="flex-1 bg-transparent px-4 py-3 text-sm outline-none text-secondary placeholder:text-gray-400"
-                            />
-                            <Button 
-                                type="submit"
-                                disabled={loading}
-                                className="rounded-m bg-secondary hover:bg-opacity-90 text-white px-6 py-3 text-sm font-bold shadow-none disabled:opacity-50 transition-all"
-                            >
-                                {loading ? "..." : "Subscribe"}
-                            </Button>
-                        </form>
-
-                        {/* Status Messages */}
-                        {status.message && (
-                            <p className={`text-xs font-medium ${status.type === "success" ? "text-green-600" : "text-red-500"}`}>
-                                {status.message}
-                            </p>
-                        )}
-                        
-                        {!status.message && (
-                            <p className="text-xs text-gray-600 italic">
-                                Sign up with your email address to receive news and updates
-                            </p>
-                        )}
-                    </div>
-                </div>
-
-                {/* Bottom Bar */}
-                <div className="border-t border-[#C5A065]/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-secondary">
-                    <div>
-                        <p>&copy; {new Date().getFullYear()} Mahakaal. All rights reserved.</p>
-                    </div>
-                    <div className="flex gap-6 md:gap-8 flex-wrap justify-center items-center">
-                        <Link href="https://instagram.com" target="_blank" className="hover:text-[#C5A065] transition-colors">
-                            <Instagram size={24} />
-                            <span className="sr-only">Instagram</span>
-                        </Link>
-                        <Link href="https://linkedin.com" target="_blank" className="hover:text-[#C5A065] transition-colors">
-                            <Linkedin size={24} />
-                            <span className="sr-only">LinkedIn</span>
-                        </Link>
-                        <Link href="https://facebook.com" target="_blank" className="hover:text-[#C5A065] transition-colors">
-                            <Facebook size={24} />
-                            <span className="sr-only">Facebook</span>
-                        </Link>
-                    </div>
-                </div>
+          {/* SUPPORT */}
+          <div className="text-center sm:text-left">
+            <h4 className="font-bold text-xs uppercase mb-4">Support</h4>
+            <div className="space-y-2">
+              <Link href="/term" className="block hover:text-[#C5A065]">Terms of services</Link>
+              <Link href="/privacy" className="block hover:text-[#C5A065]">Privacy Policy</Link>
+               <Link href="/privacy" className="block hover:text-[#C5A065]">Cookies Policy</Link>
             </div>
-        </footer>
-    );
+          </div>
+
+          {/* PAGES */}
+          <div className="text-center sm:text-left">
+            <h4 className="font-bold text-xs uppercase mb-4">Pages</h4>
+            <div className="space-y-2">
+              <Link href="/about-us" className="block hover:text-[#C5A065]">About</Link>
+              <Link href="/contact" className="block hover:text-[#C5A065]">Contact</Link>
+            </div>
+          </div>
+
+          {/* SUBSCRIBE */}
+          <div className="text-center sm:text-left">
+            <h4 className="font-bold text-xs uppercase mb-4">Subscribe</h4>
+
+            <form
+              onSubmit={handleSubscribe}
+              className="flex flex-col sm:flex-row gap-2 w-full"
+            >
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Your email"
+                className="border px-3 py-2 text-sm flex-1 min-w-0 rounded-md"
+              />
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="shrink-0 whitespace-nowrap"
+              >
+                {loading ? "..." : "Subscribe"}
+              </Button>
+            </form>
+
+            {status.message && (
+              <p
+                className={`text-xs mt-2 ${
+                  status.type === "success"
+                    ? "text-green-600"
+                    : "text-red-500"
+                }`}
+              >
+                {status.message}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="border-t pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-600 text-center sm:text-left">
+          <p>© {new Date().getFullYear()} Mahakaal. All rights reserved.</p>
+
+          <div className="flex gap-4 justify-center sm:justify-start mt-2 sm:mt-0">
+            <Instagram className="cursor-pointer hover:text-[#C5A065]" />
+            <Linkedin className="cursor-pointer hover:text-[#C5A065]" />
+            <Facebook className="cursor-pointer hover:text-[#C5A065]" />
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

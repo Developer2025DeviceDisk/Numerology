@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Sparkles, ChevronDown } from "lucide-react";
-import Button from "../ui/Button";
+import { Menu, X, } from "lucide-react";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -18,10 +17,11 @@ const Header = () => {
     }, []);
 
     const navLinks = [
+       
         { name: "About Us", href: "/about-us" },
         { name: "Contact Us", href: "/contact" },
-        { name: "Blog", href: "/blog", hasDropdown: false },
-        // { name: "Get Free Report", href: "/ConsultationBanner.tsx" },
+        
+       
     ];
 
     return (
@@ -51,17 +51,12 @@ const Header = () => {
                             className="text-sm font-semibold text-secondary hover:text-secondary transition-colors flex items-center gap-1"
                         >
                             {link.name}
-                            {link.hasDropdown && <ChevronDown className="w-3 h-3" />}
+                            
                         </Link>
                     ))}
                 </nav>
 
-                {/* Desktop CTA */}
-                <div className="hidden md:block">
-                    <Button size="sm" variant="secondary" className="rounded-m hover:bg-white focus:outline-none focus:ring-2 !border-black bg-white text-black px-6">
-                        GET YOUR FULL REPORT
-                    </Button>
-                </div>
+               
 
                 {/* Mobile Menu Toggle */}
                 <button
@@ -86,9 +81,7 @@ const Header = () => {
                                 {link.name}
                             </Link>
                         ))}
-                        <Button className="w-full" size="sm">
-                            Get Your  Report
-                        </Button>
+
                     </nav>
                 </div>
             )}
