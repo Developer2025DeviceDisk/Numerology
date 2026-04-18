@@ -131,3 +131,8 @@
 // };
 
 // export default Terms;
+const page = () => {
+  <div>term</div>;
+};
+
+export default page;
