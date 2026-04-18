@@ -160,3 +160,8 @@
 // };
 
 // export default PrivacyPage;
+const page = () => {
+  <div>privacy</div>;
+};
+
+export default page;

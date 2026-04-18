@@ -134,3 +134,8 @@
 // };
 
 // export default CookiesPage;
+const page = () => {
+  <div>Cookies</div>;
+};
+
+export default page;
