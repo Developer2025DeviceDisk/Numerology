@@ -6,10 +6,8 @@ import Button from "../ui/Button";
 import Section from "../ui/Section";
 import { Sparkle, Star } from "lucide-react";
 import Modal from "../../app/Modal/Modal";
-import Link from "next/link";
 import usePricing from "@/hooks/usePricing";
 
-// ✅ Pricing Type
 type PricingType = {
   price: number;
   finalPrice: number;
@@ -25,7 +23,7 @@ const Hero: React.FC = () => {
 
   const pricing = usePricing() as PricingType | null;
 
-  // ✅ TIMER SETUP (shared with StickyBar)
+  // ✅ TIMER SETUP
   useEffect(() => {
     if (!pricing?.countdown) return;
 
@@ -62,136 +60,143 @@ const Hero: React.FC = () => {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  // ✅ EXPIRED LOGIC
   const isExpired = isReady && timeLeft <= 0;
 
   return (
     <>
-      <Section className="pt-32 pb-10 md:pt-20 md:pb-20 overflow-hidden bg-background relative">
+      <Section className="pt-28 pb-12 sm:pt-32 md:pt-24 lg:pt-28 md:pb-20 overflow-hidden relative">
 
-        {/* Background Stars */}
-        <div className="absolute inset-0 pointer-events-none opacity-70">
+        {/* ⭐ Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-60">
 
           <motion.div
-            className="absolute top-1/4 left-10"
-            animate={{ y: [0, -10, 0], scale: [1, 1.1, 1] }}
+            className="absolute top-1/4 left-6 md:left-10"
+            animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            <Star className="w-6 h-6 text-secondary" />
+            <Star className="w-4 h-4 md:w-6 md:h-6 text-secondary" />
           </motion.div>
 
           <motion.div
-            className="absolute top-[30%] right-[10%]"
-            animate={{ y: [0, -8, 0], scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }}
+            className="absolute top-[30%] right-[8%]"
+            animate={{ y: [0, -8, 0] }}
             transition={{ duration: 4, repeat: Infinity }}
           >
-            <Star className="w-4 h-4 text-secondary" />
+            <Star className="w-3 h-3 md:w-4 md:h-4 text-secondary" />
           </motion.div>
 
-          <motion.div
-            className="absolute bottom-1/3 left-[30%]"
-            animate={{ y: [0, -12, 0], scale: [1, 1.12, 1] }}
-            transition={{ duration: 5, repeat: Infinity }}
-          >
-            <Star className="w-3 h-3 text-secondary" />
-          </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
 
           {/* LEFT */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8 md:pr-10"
+            transition={{ duration: 0.7 }}
+            className="space-y-6 md:space-y-8 text-center md:text-left"
           >
-            <div className="text-xs font-bold tracking-[0.2em] text-gray-600 uppercase pl-1">
+            <div className="text-xs tracking-[0.2em] text-gray-600 uppercase">
               Consultation For Free
             </div>
 
-            <h1 className="text-2xl md:text-7xl font-serif font-medium leading-[0.9] text-secondary">
+            <h1 className="font-serif font-medium leading-tight text-secondary text-[clamp(28px,6vw,64px)]">
               Infinite power of <br />
               <span className="italic">numerology</span>
             </h1>
 
-            <p className="text-lg text-gray-600 max-w-md leading-relaxed pl-1">
+            <p className="text-sm md:text-base text-gray-600 max-w-md mx-auto md:mx-0">
               Unlock the hidden meaning of numbers and discover what destiny holds for you.
             </p>
 
-            <div className="flex flex-col items-start">
-
-              {/* ✅ BUTTON FIXED */}
+            <div className="flex justify-center md:justify-start">
               <Button
-                size="md"
                 onClick={() => setOpen(true)}
-                className="rounded-xl border border-black !text-black font-bold uppercase bg-white shadow-none"
+                className="rounded-xl border border-black !text-black shadow-none font-bold uppercase bg-white"
               >
-                {!isExpired && pricing?.discount ? (
-                  <>BUY NOW AT {pricing.discount}% OFF</>
-                ) : (
-                  <>BUY NOW</>
-                )}
+                {!isExpired && pricing?.discount
+                  ? `BUY NOW AT ${pricing.discount}% OFF`
+                  : "BUY NOW"}
               </Button>
-
-              <Link href="/#Consultation">
-                <span className="relative mt-3 inline-block text-sm font-medium text-secondary group cursor-pointer">
-                  Or Get a short For Free
-                  <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-secondary transition-all duration-300 group-hover:w-full"></span>
-                </span>
-              </Link>
-
             </div>
 
             {/* STATS */}
-            <div className="flex items-center gap-12 pt-12 pl-1 border-t border-gray-200 mt-12 max-w-md">
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200 max-w-md mx-auto md:mx-0 text-center md:text-left">
               <div>
-                <p className="font-serif text-2xl font-bold text-secondary">85k</p>
-                <p className="text-xs text-gray-500 uppercase mt-1">Happy Clients</p>
+                <p className="font-serif text-xl md:text-2xl font-bold text-secondary">85k</p>
+                <p className="text-[10px] md:text-xs text-gray-500 uppercase mt-1">
+                  Happy Clients
+                </p>
               </div>
               <div>
-                <p className="font-serif text-2xl font-bold text-secondary">12</p>
-                <p className="text-xs text-gray-500 uppercase mt-1">Years Experience</p>
+                <p className="font-serif text-xl md:text-2xl font-bold text-secondary">12</p>
+                <p className="text-[10px] md:text-xs text-gray-500 uppercase mt-1">
+                  Years Experience
+                </p>
               </div>
               <div>
-                <p className="font-serif text-2xl font-bold text-secondary">5</p>
-                <p className="text-xs text-gray-500 uppercase mt-1">Awards Won</p>
+                <p className="font-serif text-xl md:text-2xl font-bold text-secondary">5</p>
+                <p className="text-[10px] md:text-xs text-gray-500 uppercase mt-1">
+                  Awards Won
+                </p>
               </div>
             </div>
           </motion.div>
 
-          {/* RIGHT (UNCHANGED) */}
+          {/* RIGHT */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative flex items-center justify-center"
+            transition={{ duration: 1 }}
+            className="flex justify-center"
           >
-            <div className="relative w-[350px] h-[550px] md:w-[420px] md:h-[650px] bg-[#EAE4D9] rounded-t-full rounded-b-[100px] overflow-hidden shadow-2xl border-4 border-white">
+            <div className="relative w-[85%] max-w-[420px] aspect-[2/3] bg-[#EAE4D9] rounded-t-full rounded-b-[100px] overflow-hidden shadow-2xl border-4 border-white">
 
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 600">
-                <path d="M-50,200 Q150,100 250,50 T450,150" fill="none" stroke="#E07A5F" strokeWidth="1.5" opacity="0.6" />
-                <path d="M50,550 Q200,450 350,400" fill="none" stroke="#E07A5F" strokeWidth="1.5" opacity="0.6" />
+                <path d="M-50,200 Q150,100 250,50 T450,150" fill="none" stroke="#E07A5F" strokeWidth="1.2" opacity="0.6" />
+                <path d="M50,550 Q200,450 350,400" fill="none" stroke="#E07A5F" strokeWidth="1.2" opacity="0.6" />
               </svg>
 
-              <motion.div className="absolute top-[5%] left-[18%]" animate={{ y: [0, -15, 0] }} transition={{ duration: 3, repeat: Infinity }}>
-                <span className="text-[150px] font-serif">45</span>
+              {/* Numbers */}
+              <motion.span
+                className="absolute top-[6%] left-[15%] text-[clamp(80px,12vw,140px)] font-serif"
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                45
+              </motion.span>
+
+              <motion.span
+                className="absolute bottom-[30%] right-[8%] text-[clamp(70px,10vw,120px)] font-serif"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                7
+              </motion.span>
+
+              <motion.span
+                className="absolute bottom-[0%] left-[35%] text-[clamp(80px,12vw,140px)] font-serif"
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 5, repeat: Infinity }}
+              >
+                18
+              </motion.span>
+
+              {/* Sparkles */}
+              <motion.div
+                className="absolute top-[30%] left-[30%]"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <Sparkle className="w-6 h-6 md:w-10 md:h-10 text-[#C5A065]" />
               </motion.div>
 
-              <motion.div className="absolute bottom-[30%] right-[8%]" animate={{ y: [0, -12, 0] }} transition={{ duration: 4, repeat: Infinity }}>
-                <span className="text-[120px] font-serif">7</span>
-              </motion.div>
-
-              <motion.div className="absolute -bottom-[2%] right-[50%]" animate={{ y: [0, -18, 0] }} transition={{ duration: 5, repeat: Infinity }}>
-                <span className="text-[150px] font-serif">18</span>
-              </motion.div>
-
-              <motion.div className="absolute top-[32%] left-[32%]" animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 3, repeat: Infinity }}>
-                <Sparkle className="w-10 h-10 text-[#C5A065]" />
-              </motion.div>
-
-              <motion.div className="absolute top-[68%] right-[68%]" animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 3, repeat: Infinity }}>
-                <Sparkle className="w-10 h-10 text-[#C5A065]" />
+              <motion.div
+                className="absolute bottom-[25%] left-[15%]"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <Sparkle className="w-5 h-5 md:w-8 md:h-8 text-[#C5A065]" />
               </motion.div>
 
             </div>
@@ -205,4 +210,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+export default Hero;  
