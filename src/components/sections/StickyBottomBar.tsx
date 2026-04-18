@@ -22,7 +22,7 @@ const StickyBottomBar: React.FC = () => {
 
   const pricing = usePricing() as PricingType | null;
 
-  const isExpired = isReady && timeLeft <= 0;
+  const isExpired = timeLeft <= 0;
 
   const handleOpen = () => {
     setIsModalOpen(true);

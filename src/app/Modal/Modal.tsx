@@ -8,6 +8,7 @@ type FormState = {
   dob: string;
   phone: string;
   email: string;
+  birthPlace: string; 
 };
 
 export default function Modal({
@@ -22,8 +23,9 @@ export default function Modal({
     dob: "",
     phone: "",
     email: "",
+    birthPlace: "", 
   });
-
+  
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{
     type: "success" | "error";
@@ -32,7 +34,6 @@ export default function Modal({
 
   if (!isOpen) return null;
 
-  // ✅ FIX: safer typing + cleaner update
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -42,16 +43,27 @@ export default function Modal({
   };
 
   const handleClose = () => {
-    setForm({ name: "", dob: "", phone: "", email: "" });
+    setForm({
+      name: "",
+      dob: "",
+      phone: "",
+      email: "",
+      birthPlace: "", 
+    });
     setStatus(null);
     onClose();
   };
 
-  // ✅ FIX: prevent double click + validation improved
   const handleSubmit = async () => {
     if (loading) return;
 
-    if (!form.name || !form.email || !form.phone || !form.dob) {
+    if (
+      !form.name ||
+      !form.email ||
+      !form.phone ||
+      !form.dob ||
+      !form.birthPlace 
+    ) {
       setStatus({
         type: "error",
         message: "Please fill all fields.",
@@ -68,6 +80,7 @@ export default function Modal({
         email: form.email.trim(),
         phone: form.phone.trim(),
         dob: form.dob,
+        birthPlace: form.birthPlace.trim(),
       });
 
       setStatus({
@@ -75,7 +88,13 @@ export default function Modal({
         message: data?.message || "Submitted successfully!",
       });
 
-      setForm({ name: "", dob: "", phone: "", email: "" });
+      setForm({
+        name: "",
+        dob: "",
+        phone: "",
+        email: "",
+        birthPlace: "", 
+      });
     } catch (error: unknown) {
       if (error instanceof Error) {
         setStatus({
@@ -127,6 +146,16 @@ export default function Modal({
             type="date"
             name="dob"
             value={form.dob}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-lg"
+          />
+
+          {/* ✅ ADDED BIRTH PLACE FIELD */}
+          <input
+            type="text"
+            name="birthPlace"
+            placeholder="Birth Place"
+            value={form.birthPlace}
             onChange={handleChange}
             className="w-full border p-3 rounded-lg"
           />

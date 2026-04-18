@@ -32,6 +32,7 @@ export interface ModalData {
   email: string;
   phone: string;
   dob: string;
+  birthPlace: string;
 }
 
 // ================= GENERIC POST =================
@@ -103,5 +104,6 @@ export async function submitModal(data: ModalData) {
     email: data.email,
     phone: data.phone,
     dob: data.dob,
+    birthPlace: data.birthPlace,
   });
 }
