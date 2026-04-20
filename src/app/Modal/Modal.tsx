@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { submitModal } from "../../Service/api";
+import { generateReport, createPaymentOrder } from "../../Service/api";
 
 type FormState = {
   name: string;
+  birthName: string;
   dob: string;
+  birthTime: string;
   phone: string;
   email: string;
   birthPlace: string; 
@@ -20,7 +22,9 @@ export default function Modal({
 }) {
   const [form, setForm] = useState<FormState>({
     name: "",
+    birthName: "",
     dob: "",
+    birthTime: "",
     phone: "",
     email: "",
     birthPlace: "", 
@@ -45,7 +49,9 @@ export default function Modal({
   const handleClose = () => {
     setForm({
       name: "",
+      birthName: "",
       dob: "",
+      birthTime: "",
       phone: "",
       email: "",
       birthPlace: "", 
@@ -54,11 +60,114 @@ export default function Modal({
     onClose();
   };
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleRazorpayPayment = async () => {
+    const isLoaded = await loadRazorpayScript();
+    if (!isLoaded) {
+      throw new Error("Razorpay SDK failed to load. Are you online?");
+    }
+
+    const { data } = await createPaymentOrder();
+    
+    if (!data || !data.orderId) {
+      throw new Error("Failed to initialize payment order");
+    }
+
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_SfdcuN5bv09PMM",
+      amount: data.amount,
+      currency: data.currency,
+      name: "Numerology Report",
+      description: "Payment for Personalized Numerology Report",
+      order_id: data.orderId,
+      handler: async function (response: any) {
+        try {
+          setLoading(true);
+          setStatus({
+            type: "success",
+            message: "Payment successful. Generating your report...",
+          });
+
+          // Generate report using the existing generateReport which returns a blob
+          const pdfBlob = await generateReport({
+            fullName: form.name.trim(),
+            birthName: form.birthName.trim(),
+            email: form.email.trim(),
+            phone: form.phone.trim(),
+            dob: form.dob,
+            birthTime: form.birthTime,
+            birthPlace: form.birthPlace.trim(),
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+          });
+
+          // Trigger download
+          const url = window.URL.createObjectURL(pdfBlob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Numerology_Report_${form.name.replace(/\s+/g, "_")}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+
+          setStatus({
+            type: "success",
+            message: "Report downloaded successfully!",
+          });
+
+          setTimeout(() => {
+            handleClose();
+          }, 3000); // Close modal automatically after 3 seconds on success
+
+        } catch (error: unknown) {
+          console.error("Report Generation Error:", error);
+          setStatus({
+            type: "error",
+            message: "Payment recorded but PDF download failed. Please contact support.",
+          });
+        } finally {
+          setLoading(false);
+        }
+      },
+      prefill: {
+        name: form.name,
+        email: form.email,
+        contact: form.phone,
+      },
+      theme: {
+        color: "#B08D57",
+      },
+    };
+
+    const paymentObject = new (window as any).Razorpay(options);
+    paymentObject.on("payment.failed", function (response: any) {
+      setStatus({
+        type: "error",
+        message: response.error.description || "Payment failed. Please try again.",
+      });
+      setLoading(false);
+    });
+    
+    paymentObject.open();
+  };
+
   const handleSubmit = async () => {
     if (loading) return;
 
     if (
       !form.name ||
+      !form.birthName ||
       !form.email ||
       !form.phone ||
       !form.dob ||
@@ -75,27 +184,9 @@ export default function Modal({
     setStatus(null);
 
     try {
-      const data = await submitModal({
-        fullName: form.name.trim(),
-        email: form.email.trim(),
-        phone: form.phone.trim(),
-        dob: form.dob,
-        birthPlace: form.birthPlace.trim(),
-      });
-
-      setStatus({
-        type: "success",
-        message: data?.message || "Submitted successfully!",
-      });
-
-      setForm({
-        name: "",
-        dob: "",
-        phone: "",
-        email: "",
-        birthPlace: "", 
-      });
+      await handleRazorpayPayment();
     } catch (error: unknown) {
+      setLoading(false);
       if (error instanceof Error) {
         setStatus({
           type: "error",
@@ -107,8 +198,6 @@ export default function Modal({
           message: "Something went wrong",
         });
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -136,19 +225,37 @@ export default function Modal({
           <input
             type="text"
             name="name"
-            placeholder="Full Name"
+            placeholder="Current Full Name"
             value={form.name}
             onChange={handleChange}
             className="w-full border p-3 rounded-lg"
           />
 
           <input
-            type="date"
-            name="dob"
-            value={form.dob}
+            type="text"
+            name="birthName"
+            placeholder="Full Name at Birth (Exactly as on Certificate)"
+            value={form.birthName}
             onChange={handleChange}
             className="w-full border p-3 rounded-lg"
           />
+
+          <div className="flex gap-2">
+            <input
+              type="date"
+              name="dob"
+              value={form.dob}
+              onChange={handleChange}
+              className="w-1/2 border p-3 rounded-lg"
+            />
+            <input
+              type="time"
+              name="birthTime"
+              value={form.birthTime}
+              onChange={handleChange}
+              className="w-1/2 border p-3 rounded-lg"
+            />
+          </div>
 
           {/* ✅ ADDED BIRTH PLACE FIELD */}
           <input

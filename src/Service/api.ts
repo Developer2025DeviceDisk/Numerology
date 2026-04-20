@@ -8,12 +8,17 @@ export const API_BASE_URL =
 
 export interface ConsultationData {
   fullName: string;
+  birthName?: string;
   email: string;
   phone: string;
   dob: string;
+  birthTime?: string;
   gender?: string;
   birthPlace?: string;
   concern?: string;
+  razorpay_payment_id?: string;
+  razorpay_order_id?: string;
+  razorpay_signature?: string;
 }
 
 export interface ContactData {
@@ -76,7 +81,7 @@ export async function generateReport(data: ConsultationData) {
     try {
       const errorData = await response.json();
       errorMessage = errorData.message || errorMessage;
-    } catch {}
+    } catch { }
 
     throw new Error(errorMessage);
   }
@@ -106,4 +111,19 @@ export async function submitModal(data: ModalData) {
     dob: data.dob,
     birthPlace: data.birthPlace,
   });
+}
+
+// ================= PAYMENT API =================
+
+export async function createPaymentOrder() {
+  const response = await fetch(`${API_BASE_URL}/payment/create-order`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to create payment order");
+  }
+
+  return response.json();
 }
