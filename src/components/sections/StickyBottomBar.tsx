@@ -12,7 +12,7 @@ type PricingType = {
   discount: number;
   buttonText: string;
   countdown: number;
-  offerId: string; // ✅ ADD THIS
+  offerId: string;
 };
 
 const StickyBottomBar: React.FC = () => {
@@ -22,78 +22,78 @@ const StickyBottomBar: React.FC = () => {
 
   const pricing = usePricing() as PricingType | null;
 
-  const isExpired = timeLeft <= 0;
-
   const handleOpen = () => {
     setIsModalOpen(true);
   };
 
+  // ✅ WAIT FOR REAL ADMIN DATA
+  const countdown = pricing?.countdown;
+  const offerId = pricing?.offerId;
+
   // ✅ TIMER SETUP
-useEffect(() => {
-  if (!pricing?.countdown || !pricing?.offerId) return;
+  useEffect(() => {
+    // ✅ WAIT UNTIL API DATA LOADS
+    if (!pricing || !countdown || !offerId) return;
 
-  const storedOfferId = localStorage.getItem("offer_id");
+    const storedOfferId = localStorage.getItem("offer_id");
 
-  // ✅ NEW OFFER DETECTED → RESET EVERYTHING
-  if (storedOfferId !== pricing.offerId) {
-    localStorage.setItem("offer_id", pricing.offerId);
-    localStorage.removeItem("offer_end_time");
-    localStorage.removeItem("offer_expired");
-  }
+    // ✅ RESET ONLY IF ADMIN CHANGES OFFER
+    if (storedOfferId && storedOfferId !== offerId) {
+      localStorage.removeItem("offer_end_time");
+      localStorage.removeItem("offer_expired");
+    }
 
-  const savedEndTime = localStorage.getItem("offer_end_time");
-  const isExpiredStored = localStorage.getItem("offer_expired");
+    // ✅ SAVE CURRENT OFFER
+    localStorage.setItem("offer_id", offerId);
 
-  // ✅ If already expired → don't restart
-  if (isExpiredStored === "true") {
-    setTimeLeft(0);
-    setIsReady(true);
-    return;
-  }
+    const expired = localStorage.getItem("offer_expired");
 
-  if (savedEndTime) {
-    const remaining = Math.floor(
-      (parseInt(savedEndTime) - Date.now()) / 1000
-    );
-
-    if (remaining <= 0) {
-      localStorage.setItem("offer_expired", "true");
+    // ✅ IF ALREADY EXPIRED
+    if (expired === "true") {
       setTimeLeft(0);
-    } else {
+      setIsReady(true);
+      return;
+    }
+
+    let endTime = localStorage.getItem("offer_end_time");
+
+    // ✅ CREATE TIMER ONLY FIRST TIME
+    if (!endTime) {
+      const newEndTime = Date.now() + countdown * 1000;
+
+      localStorage.setItem(
+        "offer_end_time",
+        newEndTime.toString()
+      );
+
+      endTime = newEndTime.toString();
+    }
+
+    // ✅ TIMER FUNCTION
+    const updateTimer = () => {
+      const remaining = Math.max(
+        0,
+        Math.floor((parseInt(endTime as string) - Date.now()) / 1000)
+      );
+
       setTimeLeft(remaining);
-    }
-  } else {
-    const endTime = Date.now() + pricing.countdown * 1000;
-    localStorage.setItem("offer_end_time", endTime.toString());
-    setTimeLeft(pricing.countdown);
-  }
 
-  setIsReady(true);
-}, [pricing]);
+      // ✅ MARK EXPIRED
+      if (remaining <= 0) {
+        localStorage.setItem("offer_expired", "true");
+      }
+    };
 
-  // ✅ COUNTDOWN
-  useEffect(() => {
-    if (timeLeft <= 0) return;
+    // ✅ INITIAL RUN
+    updateTimer();
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    // ✅ START INTERVAL
+    const interval = setInterval(updateTimer, 1000);
 
-    return () => clearInterval(timer);
-  }, [timeLeft]);
+    setIsReady(true);
 
-  // ✅ DELETE LOCALSTORAGE WHEN EXPIRED
-  useEffect(() => {
-    if (isReady && timeLeft === 0) {
-      localStorage.setItem("offer_expired", "true");
-    }
-  }, [timeLeft, isReady]);
+    return () => clearInterval(interval);
+  }, [pricing, countdown, offerId]);
 
   // ✅ FORMAT TIME
   const formatTime = (sec: number): string => {
@@ -106,25 +106,37 @@ useEffect(() => {
     return `${pad(hrs)}h ${pad(mins)}m ${pad(secs)}s`;
   };
 
+  const isExpired = timeLeft <= 0;
+
   // ✅ PRICING LOGIC
   const price = pricing?.price ?? 1999;
-  const finalPrice = !isExpired ? pricing?.finalPrice ?? price : price;
-  const discount = !isExpired ? pricing?.discount ?? 0 : 0;
-  const buttonText = pricing?.buttonText ?? "Get Your Full Report";
+
+  const finalPrice = !isExpired
+    ? pricing?.finalPrice ?? price
+    : price;
+
+  const discount = !isExpired
+    ? pricing?.discount ?? 0
+    : 0;
+
+  const buttonText =
+    pricing?.buttonText ?? "Get Your Full Report";
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-secondary p-3 border-t border-gray-200">
 
       <div className="relative max-w-4xl mx-auto flex items-center justify-center min-h-[60px]">
 
-        {/* LEFT: PRICE */}
+        {/* LEFT PRICE */}
         <div className="hidden md:block absolute left-0 pl-12">
           <p className="text-xl md:text-2xl font-serif font-bold text-gray-900">
+
             {!isExpired && (
               <span className="line-through text-gray-500 mr-2">
                 ₹ {price}
               </span>
             )}
+
             ₹ {finalPrice}
           </p>
 
@@ -135,7 +147,7 @@ useEffect(() => {
           )}
         </div>
 
-        {/* CENTER: BUTTON */}
+        {/* CENTER BUTTON */}
         <Button
           onClick={handleOpen}
           className="bg-white !text-black font-bold rounded-full shadow-none border border-black-300 px-10"
@@ -143,28 +155,29 @@ useEffect(() => {
           {buttonText}
         </Button>
 
-        {/* RIGHT: TIMER */}
+        {/* RIGHT TIMER */}
         <div className="hidden md:block absolute right-0 pr-4">
-          {timeLeft > 0 ? (
+
+          {isReady && !isExpired && (
             <p className="text-gray-900 font-bold text-lg md:text-xl">
               ⏳ {formatTime(timeLeft)}
             </p>
-          ) : isReady ? (
-            <p className="text-red-500 font-bold text-lg">
+          )}
 
-            </p>
-          ) : null}
         </div>
       </div>
 
       {/* MOBILE */}
       <div className="md:hidden flex flex-col items-center mt-2 gap-1">
+
         <p className="text-lg font-serif font-bold text-gray-900">
+
           {!isExpired && (
             <span className="line-through text-gray-500 mr-2">
               ₹ {price}
             </span>
           )}
+
           ₹ {finalPrice}
         </p>
 
@@ -174,18 +187,19 @@ useEffect(() => {
           </span>
         )}
 
-        {timeLeft > 0 ? (
+        {isReady && !isExpired && (
           <p className="text-gray-900 font-bold text-sm">
             ⏳ {formatTime(timeLeft)}
           </p>
-        ) : isReady ? (
-          <p className="text-red-500 font-bold text-sm">
+        )}
 
-          </p>
-        ) : null}
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* MODAL */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
