@@ -1,24 +1,32 @@
 "use client";
 
 import { useState } from "react";
-<<<<<<< HEAD
-import { submitModal } from "../../Service/api";
+import {
+  submitModal,
+  generateReport,
+  createPaymentOrder,
+} from "../../Service/api";
 
-type FormState = {
-  name: string;
-  dob: string;
-=======
-import { generateReport, createPaymentOrder } from "../../Service/api";
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
 type FormState = {
   name: string;
   birthName: string;
   dob: string;
   birthTime: string;
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
   phone: string;
   email: string;
-  birthPlace: string; 
+  birthPlace: string;
+};
+
+type RazorpayResponse = {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
 };
 
 export default function Modal({
@@ -28,21 +36,20 @@ export default function Modal({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const [form, setForm] = useState<FormState>({
+  const initialForm: FormState = {
     name: "",
-<<<<<<< HEAD
-    dob: "",
-=======
     birthName: "",
     dob: "",
     birthTime: "",
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
     phone: "",
     email: "",
-    birthPlace: "", 
-  });
-  
+    birthPlace: "",
+  };
+
+  const [form, setForm] = useState<FormState>(initialForm);
+
   const [loading, setLoading] = useState(false);
+
   const [status, setStatus] = useState<{
     type: "success" | "error";
     message: string;
@@ -52,6 +59,7 @@ export default function Modal({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setForm((prev) => ({
       ...prev,
       [name]: value,
@@ -59,155 +67,37 @@ export default function Modal({
   };
 
   const handleClose = () => {
-    setForm({
-      name: "",
-<<<<<<< HEAD
-      dob: "",
-=======
-      birthName: "",
-      dob: "",
-      birthTime: "",
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
-      phone: "",
-      email: "",
-      birthPlace: "", 
-    });
+    setForm(initialForm);
     setStatus(null);
     onClose();
   };
 
-<<<<<<< HEAD
-=======
-  const loadRazorpayScript = () => {
+  const loadRazorpayScript = async (): Promise<boolean> => {
+    if (window.Razorpay) return true;
+
     return new Promise((resolve) => {
       const script = document.createElement("script");
+
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+
       script.onload = () => resolve(true);
       script.onerror = () => resolve(false);
+
       document.body.appendChild(script);
     });
   };
 
-  const handleRazorpayPayment = async () => {
-    const isLoaded = await loadRazorpayScript();
-    if (!isLoaded) {
-      throw new Error("Razorpay SDK failed to load. Are you online?");
-    }
-
-    const { data } = await createPaymentOrder();
-    
-    if (!data || !data.orderId) {
-      throw new Error("Failed to initialize payment order");
-    }
-
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_SfdcuN5bv09PMM",
-      amount: data.amount,
-      currency: data.currency,
-      name: "Numerology Report",
-      description: "Payment for Personalized Numerology Report",
-      order_id: data.orderId,
-      handler: async function (response: any) {
-        try {
-          setLoading(true);
-          setStatus({
-            type: "success",
-            message: "Payment successful. Generating your report...",
-          });
-
-          // Generate report using the existing generateReport which returns a blob
-          const pdfBlob = await generateReport({
-            fullName: form.name.trim(),
-            birthName: form.birthName.trim(),
-            email: form.email.trim(),
-            phone: form.phone.trim(),
-            dob: form.dob,
-            birthTime: form.birthTime,
-            birthPlace: form.birthPlace.trim(),
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_signature: response.razorpay_signature,
-          });
-
-          // Trigger download
-          const url = window.URL.createObjectURL(pdfBlob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `Numerology_Report_${form.name.replace(/\s+/g, "_")}.pdf`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-
-          setStatus({
-            type: "success",
-            message: "Report downloaded successfully!",
-          });
-
-          setTimeout(() => {
-            handleClose();
-          }, 3000); // Close modal automatically after 3 seconds on success
-
-        } catch (error: unknown) {
-          console.error("Report Generation Error:", error);
-          setStatus({
-            type: "error",
-            message: "Payment recorded but PDF download failed. Please contact support.",
-          });
-        } finally {
-          setLoading(false);
-        }
-      },
-      prefill: {
-        name: form.name,
-        email: form.email,
-        contact: form.phone,
-      },
-      theme: {
-        color: "#B08D57",
-      },
-    };
-
-    const paymentObject = new (window as any).Razorpay(options);
-    paymentObject.on("payment.failed", function (response: any) {
-      setStatus({
-        type: "error",
-        message: response.error.description || "Payment failed. Please try again.",
-      });
-      setLoading(false);
-    });
-    
-    paymentObject.open();
-  };
-
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
-  const handleSubmit = async () => {
-    if (loading) return;
-
-    if (
-      !form.name ||
-<<<<<<< HEAD
-=======
-      !form.birthName ||
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
-      !form.email ||
-      !form.phone ||
-      !form.dob ||
-      !form.birthPlace 
-    ) {
-      setStatus({
-        type: "error",
-        message: "Please fill all fields.",
-      });
-      return;
-    }
-
-    setLoading(true);
-    setStatus(null);
-
+  const generateAndDownloadReport = async (
+    response: RazorpayResponse
+  ) => {
     try {
-<<<<<<< HEAD
-      const data = await submitModal({
+      setStatus({
+        type: "success",
+        message: "Payment successful. Generating report...",
+      });
+
+      await submitModal({
         fullName: form.name.trim(),
         email: form.email.trim(),
         phone: form.phone.trim(),
@@ -215,40 +105,152 @@ export default function Modal({
         birthPlace: form.birthPlace.trim(),
       });
 
-      setStatus({
-        type: "success",
-        message: data?.message || "Submitted successfully!",
+      const pdfBlob = await generateReport({
+        fullName: form.name.trim(),
+        birthName: form.birthName.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        dob: form.dob,
+        birthTime: form.birthTime,
+        birthPlace: form.birthPlace.trim(),
+        ...response,
       });
 
-      setForm({
-        name: "",
-        dob: "",
-        phone: "",
-        email: "",
-        birthPlace: "", 
+      const url = URL.createObjectURL(pdfBlob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Numerology_Report_${form.name.replace(
+        /\s+/g,
+        "_"
+      )}.pdf`;
+
+      document.body.appendChild(a);
+      a.click();
+
+      a.remove();
+
+      URL.revokeObjectURL(url);
+
+      setStatus({
+        type: "success",
+        message: "Report downloaded successfully!",
       });
-    } catch (error: unknown) {
-=======
-      await handleRazorpayPayment();
-    } catch (error: unknown) {
-      setLoading(false);
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
-      if (error instanceof Error) {
-        setStatus({
-          type: "error",
-          message: error.message,
-        });
-      } else {
-        setStatus({
-          type: "error",
-          message: "Something went wrong",
-        });
-      }
-<<<<<<< HEAD
+
+      setTimeout(handleClose, 3000);
+
+    } catch (error) {
+      console.error(error);
+
+      setStatus({
+        type: "error",
+        message:
+          "Payment completed but report generation failed.",
+      });
     } finally {
       setLoading(false);
-=======
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
+    }
+  };
+
+  const handleRazorpayPayment = async () => {
+    const loaded = await loadRazorpayScript();
+
+    if (!loaded) {
+      throw new Error(
+        "Failed to load Razorpay. Check internet connection."
+      );
+    }
+
+    const { data } = await createPaymentOrder();
+
+    if (!data?.orderId) {
+      throw new Error("Payment initialization failed");
+    }
+
+    const options = {
+      key:
+        process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ??
+        "rzp_test_SfdcuN5bv09PMM",
+
+      amount: data.amount,
+      currency: data.currency,
+      order_id: data.orderId,
+
+      name: "Numerology Report",
+
+      description:
+        "Payment for Personalized Numerology Report",
+
+      prefill: {
+        name: form.name,
+        email: form.email,
+        contact: form.phone,
+      },
+
+      theme: {
+        color: "#B08D57",
+      },
+
+      handler: async (
+        response: RazorpayResponse
+      ) => {
+        await generateAndDownloadReport(response);
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+
+    razorpay.on(
+      "payment.failed",
+      (response: any) => {
+        setLoading(false);
+
+        setStatus({
+          type: "error",
+          message:
+            response?.error?.description ??
+            "Payment failed",
+        });
+      }
+    );
+
+    razorpay.open();
+  };
+
+  const handleSubmit = async () => {
+    if (loading) return;
+
+    if (
+      !form.name ||
+      !form.birthName ||
+      !form.email ||
+      !form.phone ||
+      !form.dob ||
+      !form.birthPlace
+    ) {
+      setStatus({
+        type: "error",
+        message: "Please fill all required fields",
+      });
+
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setStatus(null);
+
+      await handleRazorpayPayment();
+    } catch (error) {
+      setLoading(false);
+
+      setStatus({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong",
+      });
     }
   };
 
@@ -263,7 +265,7 @@ export default function Modal({
       >
         <button
           onClick={handleClose}
-          className="absolute top-3 right-3 text-gray-500 text-xl"
+          className="absolute right-3 top-3 text-gray-500 text-xl"
         >
           ✕
         </button>
@@ -273,55 +275,56 @@ export default function Modal({
         </h2>
 
         <div className="space-y-4">
+
           <input
             type="text"
             name="name"
-<<<<<<< HEAD
-            placeholder="Full Name"
-=======
             placeholder="Current Full Name"
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
             value={form.name}
             onChange={handleChange}
             className="w-full border p-3 rounded-lg"
           />
 
           <input
-<<<<<<< HEAD
-            type="date"
-            name="dob"
-            value={form.dob}
-=======
             type="text"
             name="birthName"
-            placeholder="Full Name at Birth (Exactly as on Certificate)"
+            placeholder="Full Name at Birth"
             value={form.birthName}
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
             onChange={handleChange}
             className="w-full border p-3 rounded-lg"
           />
 
-<<<<<<< HEAD
-=======
           <div className="flex gap-2">
+
+            {/* Date of Birth */}
             <input
-              type="date"
+              type={form.dob ? "date" : "text"}
               name="dob"
+              placeholder="Date of Birth"
               value={form.dob}
+              onFocus={(e) => (e.target.type = "date")}
+              onBlur={(e) => {
+                if (!form.dob) e.target.type = "text";
+              }}
               onChange={handleChange}
               className="w-1/2 border p-3 rounded-lg"
             />
+
+            {/* Birth Time */}
             <input
-              type="time"
+              type={form.birthTime ? "time" : "text"}
               name="birthTime"
+              placeholder="Birth Time"
               value={form.birthTime}
+              onFocus={(e) => (e.target.type = "time")}
+              onBlur={(e) => {
+                if (!form.birthTime) e.target.type = "text";
+              }}
               onChange={handleChange}
               className="w-1/2 border p-3 rounded-lg"
             />
           </div>
 
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
-          {/* ✅ ADDED BIRTH PLACE FIELD */}
           <input
             type="text"
             name="birthPlace"
@@ -354,16 +357,17 @@ export default function Modal({
             disabled={loading}
             className="w-full bg-black text-white py-3 rounded-lg font-bold disabled:opacity-50"
           >
-            {loading ? "Submitting..." : "🔒 Get My Report"}
+            {loading
+              ? "Processing..."
+              : "Get My Report"}
           </button>
 
           {status && (
             <p
-              className={`text-sm mt-2 text-center ${
-                status.type === "success"
+              className={`text-sm text-center ${status.type === "success"
                   ? "text-green-600"
                   : "text-red-500"
-              }`}
+                }`}
             >
               {status.message}
             </p>

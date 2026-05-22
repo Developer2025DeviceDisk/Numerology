@@ -5,11 +5,8 @@ import { motion } from "framer-motion";
 import Button from "../ui/Button";
 import Section from "../ui/Section";
 import { Sparkle, Star } from "lucide-react";
-<<<<<<< HEAD
-=======
 import Modal from "../../app/Modal/Modal";
 import usePricing from "@/hooks/usePricing";
->>>>>>> 6024aa2d538abe4509014d03fd00cb54363962a1
 
 type PricingType = {
   price: number;
